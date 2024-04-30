@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zpsystem.mapper.JsMapper">
+    <select id="getOne" parameterType="Map" resultType="Map">
+        select * from Jobseekers where jsid=#{jsid} and jspasswd=#{jspasswd}
+    </select>
+    <insert id="zhuce" parameterType="Map" >
+        insert into Jobseekers(jsid,jsname,jssex,jsbirth,jstel,jsaddress,jspasswd,jsemail) values(
+                #{jsid},#{jsname},#{jssex},to_date(#{jsbirth},'YYYY-MM-DD\"T\"HH24:MI:SS'),#{jstel},#{jsaddress},#{jspasswd},#{jsemail})
+    </insert>
+    <update id="changepwd" parameterType="Map">
+        update Jobseekers set jspasswd=#{jspasswd} where jsid=#{jsid}
+    </update>
+
+</mapper>

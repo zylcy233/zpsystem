@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <!--增加界面-->
+    <div id="emp1UI" class="row clearfix" style="display: none">
+        <!--显示界面-->
+        <div class="col-md-12 column">
+            <label id="ts" style="color: pink"></label>
+            <form role="form">
+                <input type="hidden" id="oldjsid" name="oldjsid"/>
+                <input type="hidden" id="op" name="op"/>
+                <div class="form-group">
+                    <label for="jsid">jsid</label>
+                    <input class="form-control" id="jsid" name="jsid"/>
+                </div>
+                <div class="form-group">
+                    <label for="jsname">jsname</label>
+                    <input  class="form-control" id="jsname" name="jsname"/>
+                </div>
+                <div class="form-group">
+                    <label for="jssex">jssex</label>
+                    <input  class="form-control" id="jssex" name="jssex"/>
+                </div>
+                <div class="form-group">
+                    <label for="jsbirth">jsbirth</label>
+                    <input type="date" class="form-control" id="jsbirth" name="jsbirth"/>
+                </div>
+                <div class="form-group">
+                    <label for="jstel">jstel</label>
+                    <input  class="form-control" id="jstel" name="jstel"/>
+                </div>
+                <div class="form-group">
+                    <label for="jsaddress">jsaddress</label>
+                    <input  class="form-control" id="jsaddress" name="jsaddress"/>
+                </div>
+                <div class="form-group">
+                    <label for="jspasswd">jspasswd</label>
+                    <input  class="form-control" id="jspasswd" name="jspasswd"/>
+                </div>
+                <div class="form-group">
+                    <label for="jsemail">jsemail</label>
+                    <input  class="form-control" id="jsemail" name="jsemail"/>
+                </div>
+               
+                <button type="button" class="btn btn-default" id="btnEmp" onclick="updateone()">增加</button>
+                <button type="button" class="btn btn-default" onclick="disUI(1)">取消</button>
+            </form>
+        </div>
+    </div>
+    <div id="empUI" class="row clearfix">
+        <div class="col-md-12 column">
+<!--            <button type="button" class="btn btn-default" onclick="disUI(0)">显示增加界面</button>-->
+            <div class="form-group">
+                <input class="form-control" id="find" name="find" placeholder="请输入要搜索jsname"/>
+                <button type="button" class="btn btn-default" onclick="find()">搜索</button>
+
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>jsid</td>
+                    <td>jsname</td>
+                    <td>jssex</td>
+                    <td>jstel</td>
+                    <td>jsbirth</td>
+                    <td>jsaddress</td>
+                    <td>jspasswd</td>
+                    <td>jsemail</td>
+                    <td>处理</td>
+                </tr>
+                </thead>
+                <tbody id="disemp">
+
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default" onclick="more()">查看更多</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    var pageIndex=1
+
+    function find() {
+        pageIndex=1
+        $("#disemp").html("")
+        getJs();
+
+    }
+    function more() {
+        pageIndex++;
+        getJs();
+    }
+    function getJs() {
+        $.ajax({
+            // type:"get",
+            url:"../../../JSaction",
+            data:{method:"get",pageIndex:pageIndex},
+            success:function (r) {
+                console.log(r)
+                var Js=""
+                for (var i=0;i<r.length;i++){
+                    var d=r[i];
+                    if (i%2==0){
+                        Js=Js+"<tr id='js_"+d.jsid+"' class='success'>"}
+                    else
+                        Js=Js+"<tr id='js_"+d.jsid+"'>"
+                    Js=Js+"<td>"+d.jsid+"</td>"
+                    Js=Js+"<td>"+d.jsname+"</td>"
+                    Js=Js+"<td>"+d.jssex+"</td>"
+                    Js=Js+"<td>"+d.jstel+"</td>"
+                    Js=Js+"<td>"+d.jsbirth+"</td>"
+                    if (d.jsaddress==undefined){
+                    d.jsaddress=""}
+                    Js=Js+"<td>"+d.jsaddress+"</td>"
+                    Js=Js+"<td>"+d.jspasswd+"</td>"
+                    Js=Js+"<td>"+d.jsemail+"</td>"
+
+                    Js=Js+"<td><a href='javascript:void(0)' onclick=\"modify("+d.jsid+",'"+d.jsname+"','"+d.jssex+"',"+d.jstel
+                        +",'"+d.jsbirth+"','"+d.jsaddress+"','"+d.jspasswd+"','"+d.jsemail+"')\">修改</a></td>"
+                    // Js=Js+ "<a href='../../../JSaction?method=delete&jsid="+d.jsid+"' onclick='return confirm(\"确定要删除吗\")'>删除</a></td>";
+                    // Js=Js+ "<a href='javascript:void(0)' onclick='del("+d.jsid+")'>删除</a></td>";
+                    Js=Js+"</tr>"
+                }
+                $("#disemp").append(Js)
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+    }
+    getJs()
+
+    function del(jsid) {
+        if (confirm("确定要删除嘛")) {
+        $.ajax({
+            url:"../../../JSaction",//url:服务器的某个资源名称
+            data:{jsid:jsid,method:"delete"}, //向服务器请求传递的数据
+            success:function (r) {
+                if (r.indexOf("OK")>-1)
+                    $("#js_"+jsid).remove();
+
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+    }
+    }
+
+    function modify(jsid,jsname,jssex,jstel,jsbirth,jsaddress,jspasswd,jsemail) {
+        disUI(0)
+        $("#btnEmp").html("修改")
+        $("#oldjsid").val(jsid)
+        $("#jsid").val(jsid)
+        $("#jsname").val(jsname)
+        $("#jssex").val(jssex)
+        $("#jstel").val(jstel)
+        $("#jsbirth").val(jsbirth)
+        $("#jsaddress").val(jsaddress)
+        $("#jspasswd").val(jspasswd)
+        $("#jsemail").val(jsemail)
+
+    }
+
+    function disUI(i) {
+        if (i==0) {
+            $("#emp1UI").css("display", "block");
+            $("#empUI").css("display", "none")
+        }
+        if (i==1) {
+            $("#emp1UI").css("display", "none");
+            $("#empUI").css("display", "block")
+        }
+    }
+
+    function updateone() {
+        //用户数数据校验
+        var jsid=$("#jsid").val()//xyta=document.getElementById("xyta").value;
+        var oldjsid=$("#oldjsid").val()
+        var jsname=$("#jsname").val()
+        var jssex=$("#jssex").val()
+        var jstel=$("#jstel").val()
+        var jsbirth=$("#jsbirth").val()
+        var jsaddress=$("#jsaddress").val()
+        var jspasswd=$("#jspasswd").val()
+        var jsemail=$("#jsemail").val()
+        //增加直接校验是否存在   修改在jsid!=oldjsid到数据库校验
+        function isNumStr( str){
+            if (str==null||str.length==0) return false;
+            for (var i=0;i<str.length;i++){
+                var ch=str.charAt(i);
+                if (!(ch>='0'&&ch<='9'))
+                    return false;
+            }
+            return true;
+        }
+
+        //基本校验
+        if (!isNumStr(jsid)){
+            $("#ts").html("jsid必须是数字串")
+            return;
+        }
+        if (jsname==""){
+            $("#ts").html("jsname不能为空")
+            return;
+        }
+
+        if (!isNumStr(jstel)){
+            $("#ts").html("jstel必须是数字串")
+            return;
+        }
+        if (jsemail==""){
+            $("#ts").html("jsemail不能为空")
+            return;
+        }
+        var bCheck=true
+        var method="insert"
+        if ($("#btnEmp").html()=="修改"){
+            method="updateone"
+            if (jsid==oldjsid) bCheck=false;
+        }
+        var bGo=true
+        if (true){
+            $.ajax({
+                url:"../../../JSaction",
+                data:{jsid:jsid,method:"check"},
+                async:false,//设置异步为假：等待返回结果
+                success:function (r) {
+                    if (r.indexOf("exits")!=-1){
+                        $("#ts").html("jsid已经存在")
+                        bGo=false
+                    }
+                },
+                error:function (e) {
+                    console.log(e)
+                }
+            })
+        }
+        if (!bGo) return;
+
+
+        //jQuery就是$
+        jQuery.ajax({
+            url:"../../../JSaction",
+            data:{oldjsid:oldjsid,jsid:jsid,jsname:jsname,jssex:jssex,jstel:jstel,jsbirth:jsbirth,jsaddress:jsaddress,jspasswd:jspasswd,jsemail:jsemail,method:method},
+            success:function (r) {
+                alert(r)
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+
+    }
+</script>

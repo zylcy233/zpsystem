@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <!--增加界面-->
+    <div id="admUI" class="row clearfix" style="display: none">
+        <!--显示界面-->
+        <div class="col-md-12 column">
+            <label id="ts" style="color: pink"></label>
+            <form role="form">
+                <input type="hidden" id="oldaid" name="oldaid"/>
+                <input type="hidden" id="op" name="op"/>
+                <div class="form-group">
+                    <label for="aid">aid</label>
+                    <input class="form-control" id="aid" name="aid"/>
+                </div>
+                <div class="form-group">
+                    <label for="aname">aname</label>
+                    <input  class="form-control" id="aname" name="aname"/>
+                </div>
+                <div class="form-group">
+                    <label for="apasswd">apasswd</label>
+                    <input type="text" class="form-control" id="apasswd" name="apasswd"/>
+                </div>
+                <!--                <div class="form-group">-->
+                <!--                    <label for="exampleInputFile">File input</label><input type="file" id="exampleInputFile" />-->
+                <!--                    <p class="help-block">-->
+                <!--                        Example block-level help text here.-->
+                <!--                    </p>-->
+                <!--                </div>-->
+                <!--                <div class="checkbox">-->
+                <!--                    <label><input type="checkbox" />Check me out</label>-->
+                <!--                </div> -->
+                <button type="button" class="btn btn-default" onclick="disUI(1)">取消</button>
+            </form>
+        </div>
+    </div>
+    <div id="aUI" class="row clearfix">
+        <div class="col-md-12 column">
+            <button type="button" class="btn btn-default" onclick="disUI(0)">显示增加界面</button>
+            <div class="form-group">
+                <input class="form-control" id="find" name="find" placeholder="请输入要搜索的管理员姓名"/>
+                <button type="button" class="btn btn-default" onclick="find()">搜索</button>
+
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>aid</td>
+                    <td>aname</td>
+                    <td>apasswd</td>
+                    <td>处理</td>
+                </tr>
+                </thead>
+                <tbody id="disAdmin">
+
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default" onclick="more()">查看更多</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    var pageIndex=1
+
+    function find() {
+        pageIndex=1
+        $("#disAdmin").html("")
+        getAdm();
+
+    }
+    function more() {
+        pageIndex++;
+        getAdm();
+    }
+    function getAdm() {
+        var find=$("#find").val()
+        $.ajax({
+            // type:"get",
+            url:"../../../adminaction",
+            data:{find:find,pageIndex:pageIndex},
+            success:function (r) {
+                console.log(r)
+                var adms=""
+                for (var i=0;i<r.length;i++){
+                    var d=r[i];
+                    if (i%2==0){
+                        adms=adms+"<tr class='success'>"}
+                    else
+                        adms=adms+"<tr>"
+                    adms=adms+"<td>"+d.aid+"</td>"
+                    adms=adms+"<td>"+d.aname+"</td>"
+                    adms=adms+"<td>"+d.apasswd+"</td>"
+                    adms=adms+"<td><a href='javascript:void(0)' onclick=\"modify("+d.aid+",'"+d.aname+"','"+d.apasswd+"')\">修改</a></td>"
+                    // adms=adms+ "<a href='../../../adminaction?method=delete&aid="+d.aid+"&oldaid="+d.oldaid+"' onclick='return confirm(\"确定要删除吗\")'>删除</a></td>";
+                    adms=adms+"</tr>"
+                }
+                $("#disAdmin").append(adms)
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+    }
+    getAdm()
+    function modify(aid,aname,apasswd) {
+        disUI(0)
+        $("#btnZy").html("修改")
+        $("#oldaid").val(aid)
+        $("#aid").val(aid)
+        $("#aname").val(aname)
+        $("#apasswd").val(apasswd)
+    }
+
+    function disUI(i) {
+        if (i==0) {
+            $("#admUI").css("display", "block");
+            $("#aUI").css("display", "none")
+        }
+        if (i==1) {
+            $("#admUI").css("display", "none");
+            $("#aUI").css("display", "block")
+        }
+    }
+
+    function del(aid) {
+        if (confirm("确定要删除吗？")) {
+            $.ajax({
+                url: "../../../adminaction",
+                data: {aid: aid, method: "delete"},
+                success: function (r) {
+                    if (r.indexOf("Ok") > -1) {
+                        $("#admin_" + aid).remove();
+                    }
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
+    }
+    function update() {
+        //用户数数据校验
+        var aid=$("#aid").val()
+        var oldaid=$("#oldaid").val()
+        var aname=$("#aname").val()
+        var apasswd=$("#apasswd").val()
+        function isNumStr( str){
+            if (str==null||str.length==0) return false;
+            for (var i=0;i<str.length;i++){
+                var ch=str.charAt(i);
+                if (!(ch>='0'&&ch<='9'))
+                    return false;
+            }
+            return true;
+        }
+
+        //基本校验
+        if (!isNumStr(aid)){
+            $("#ts").html("aid必须是字符串")
+            return;
+        }
+        if (aname==""){
+            $("#ts").html("aname不能为空")
+            return;
+        }
+       if (apasswd==""){
+           $("#ts").html("apasswd不能为空")
+           return;
+       }
+
+        var bCheck=true
+        var method="insert"
+        if ($("#btnZy").html()=="修改"){
+            method="update"
+        if (aid==oldaid)
+            bCheck=false;
+        }
+        var bGo=true
+        if (bGo&&bCheck){
+            $.ajax({
+                url:"../../../adminaction",
+                data:{aid:aid,method:"check"},
+                async:false,//设置异步为假：等待返回结果
+                success:function (r) {
+                    if (r.indexOf("exist")!=-1){
+                        $("#ts").html("aid已经存在")
+                        bGo=false
+                    }
+                },
+                error:function (e) {
+                    console.log(e)
+                }
+            })
+        }
+        if (!bGo) return;
+        //jQuery就是$
+        jQuery.ajax({
+            url:"../../../adminaction",
+            data:{oldaid:oldaid,aid:aid,aname:aname,apasswd:apasswd,method:method},
+            success:function (r) {
+                alert(r)
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+            }
+
+
+</script>

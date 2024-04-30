@@ -1,0 +1,13 @@
+package com.zpsystem.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+public interface ParentMapper {
+    Map getOne(Map map);
+    boolean zhuce(Map map);
+    boolean changepwd(Map map);
+    List selectadm(Map map);
+    List select(Map map);
+    boolean delete(Object object);
+}

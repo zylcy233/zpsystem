@@ -1,0 +1,8 @@
+﻿[
+
+{ "id": "admin", iconCls: "fa fa-barcode", text: "管理员", url: "../../demo/datagrid/Adm.html" },
+{ "id": "COM", iconCls: "fa fa-barcode", text: "公司信息管理", url: "../../demo/datagrid/COM.html" },
+{ "id": "JS", iconCls: "fa fa-barcode", text: "求职者信息管理", url: "../../demo/datagrid/JS.html" },
+{ "id": "JRtwo", iconCls: "fa fa-barcode", text: "简历管理", url: "../../demo/datagrid/JRtwo.html" },
+
+]

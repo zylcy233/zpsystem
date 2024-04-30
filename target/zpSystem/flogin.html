@@ -1,0 +1,128 @@
+
+<html>
+<head>
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function check(f) {
+            console.log(f)  //向浏览器控制台输入信息
+            console.log(typeof f);
+            //所有的html/xml标签在js世界都是一个个对象
+            var ananme=f.aname.value;
+            var apasswd=f.apasswd.value;
+            if (ananme==""||apasswd==""){
+                alert("账号或密码不能位空")
+                return false;
+            }
+        }
+    </script>
+</head>
+<body style="background-image: url('壁纸.jpg')">
+
+<form action="login.jsp" onsubmit="return check(this)"></form>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <label id="ts" style="color:red;"></label>
+<!--            <h3 style="color: red;"> <%-->
+<!--              String ts= (String) request.getAttribute("zy");-->
+<!--              if (ts!=null){-->
+<!--                  out.print(ts);-->
+<!--              }-->
+<!--            %></h3>-->
+            <form role="form" action="javascripe:void(0)">
+                <div class="form-group">
+                    <label for="id">id</label>
+                    <input type="text" class="form-control" id="id" name="id"/>
+                </div>
+                <div class="form-group">
+                    <label for="passwd">passwd</label>
+                    <input type="text" class="form-control" id="passwd" name="passwd" />
+                </div>
+                 <button type="button" class="btn btn-default" onclick="alogin()">管理员登录</button>
+                <button type="button" class="btn btn-default" onclick="jslogin()">求职者登录</button>
+                <button type="button" class="btn btn-default" onclick="rlogin()">招聘者登录</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='sendemail.html'">忘记密码</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href='zhuce.html'">注册</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var httpreq=null;
+    var ts=document.getElementById("ts");
+    function alogin() {
+        var aid = document.getElementById("id").value;
+        var apasswd = document.getElementById("passwd").value;
+        if(aid==""||apasswd==""){
+            ts.innerHTML="用户或密码不能为空"
+            return
+        }
+        if (httpreq == null) httpreq = new XMLHttpRequest()
+        httpreq.onreadystatechange = function () {
+            if (httpreq.readyState == 4 && httpreq.status == 200) {
+                var res=httpreq.responseText
+                if (res.indexOf("fail")!=-1){
+                    ts.innerHTML="无效的用户密码"
+                }else {
+                    ts.innerHTML="登录成功，稍后带你到主页..."
+                    setTimeout("window.location.href='frame/frame1/admindex.html',1000")
+                }
+            }
+        }
+        httpreq.open("get", "admaction/login?aid="+aid+"&apasswd="+apasswd);
+        httpreq.send();
+    }
+
+    function jslogin() {
+        var jsid = document.getElementById("id").value;
+        var jspasswd = document.getElementById("passwd").value;
+        if(jsid==""||jspasswd==""){
+            ts.innerHTML="用户或密码不能为空"
+            return
+        }
+        if (httpreq == null) httpreq = new XMLHttpRequest()
+        httpreq.onreadystatechange = function () {
+            if (httpreq.readyState == 4 && httpreq.status == 200) {
+                var res=httpreq.responseText
+                if (res.indexOf("fail")!=-1){
+                    ts.innerHTML="无效的用户密码"
+                }else {
+                    ts.innerHTML="登录成功，稍后带你到主页..."
+                    setTimeout("window.location.href='frame/frame1/jsindex.html',1000")
+                }
+            }
+        }
+        httpreq.open("get", "jsloginaction/login?jsid="+jsid+"&jspasswd="+jspasswd);
+        httpreq.send();
+    }
+    
+    function rlogin() {
+        var rid = document.getElementById("id").value;
+        var rpasswd = document.getElementById("passwd").value;
+        if(rid==""||rpasswd==""){
+            ts.innerHTML="用户或密码不能为空"
+            return
+        }
+        if (httpreq == null) httpreq = new XMLHttpRequest()
+        httpreq.onreadystatechange = function () {
+            if (httpreq.readyState == 4 && httpreq.status == 200) {
+                var res=httpreq.responseText
+                if (res.indexOf("fail")!=-1){
+                    ts.innerHTML="无效的用户密码"
+                }else {
+                    ts.innerHTML="登录成功，稍后带你到主页..."
+                    setTimeout("window.location.href='frame/frame1/rindex.html',1000")
+                }
+            }
+        }
+        httpreq.open("get", "rloginaction/login?rid="+rid+"&rpasswd="+rpasswd);
+        httpreq.send();
+    }
+</script>

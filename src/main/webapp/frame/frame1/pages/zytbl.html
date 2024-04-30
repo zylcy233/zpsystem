@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <!--增加界面-->
+    <div id="zytblUI" class="row clearfix" style="display: none">
+        <!--显示界面-->
+        <div class="col-md-12 column">
+            <label id="ts" style="color: pink"></label>
+            <form role="form">
+                <input type="hidden" id="oldzya" name="oldzya"/>
+                <input type="hidden" id="op" name="op"/>
+                <div class="form-group">
+                    <label for="zya">zya</label>
+                    <input class="form-control" id="zya" name="zya"/>
+                </div>
+                <div class="form-group">
+                    <label for="zyb">zyb</label>
+                    <input  class="form-control" id="zyb" name="zyb"/>
+                </div>
+                <div class="form-group">
+                    <label for="zyc">zyc</label>
+                    <input type="text" class="form-control" id="zyc" name="zyc"/>
+                </div>
+                <div class="form-group">
+                    <label for="zyd">zyd</label>
+                    <input type="date" class="form-control" id="zyd" name="zyd"/>
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <label for="exampleInputFile">File input</label><input type="file" id="exampleInputFile" />-->
+<!--                    <p class="help-block">-->
+<!--                        Example block-level help text here.-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--                <div class="checkbox">-->
+<!--                    <label><input type="checkbox" />Check me out</label>-->
+<!--                </div> -->
+                <button type="button" class="btn btn-default" id="btnZy" onclick="update()">增加</button>
+                <button type="button" class="btn btn-default" onclick="disUI(1)">取消</button>
+            </form>
+        </div>
+    </div>
+    <div id="zyUI" class="row clearfix">
+        <div class="col-md-12 column">
+            <button type="button" class="btn btn-default" onclick="disUI(0)">显示增加界面</button>
+            <div class="form-group">
+                <label for="zyd">zyd</label>
+                <input class="form-control" id="find" name="find" placeholder="请输入要搜索的zyb关键字"/>
+                <button type="button" class="btn btn-default" onclick="find()">搜索</button>
+
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>zya</td>
+                    <td>zyb</td>
+                    <td>zyc</td>
+                    <td>zyd</td>
+                    <td>处理</td>
+                </tr>
+                </thead>
+                <tbody id="diszytbl">
+
+
+                </tbody>
+            </table>
+              <button type="button" class="btn btn-default" onclick="more()">查看更多</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    var pageIndex=1
+
+    function find() {
+        pageIndex=1
+        $("#diszytbl").html("")
+        getZytbls();
+
+    }
+    function more() {
+        pageIndex++;
+        getZytbls();
+    }
+    function getZytbls() {
+        var find=$("#find").val()
+        $.ajax({
+            // type:"get",
+            url:"../../../zytblaction",
+            data:{find:find,pageIndex:pageIndex},
+            success:function (r) {
+                console.log(r)
+                var zytbls=""
+                for (var i=0;i<r.length;i++){
+                    var d=r[i];
+                    if (i%2==0){
+                        zytbls=zytbls+"<tr class='success'>"}
+                    else
+                        zytbls=zytbls+"<tr>"
+                    zytbls=zytbls+"<td>"+d.zya+"</td>"
+                    zytbls=zytbls+"<td>"+d.zyb+"</td>"
+                    zytbls=zytbls+"<td>"+d.zyc+"</td>"
+                    zytbls=zytbls+"<td>"+d.zyd+"</td>"
+                    zytbls=zytbls+"<td><a href='javascript:void(0)' onclick=\"modify("+d.zya+",'"+d.zyb+"',"+d.zyc+",'"+d.zyd+"')\">修改</a>&nbsp;|&nbsp;"
+                    zytbls=zytbls+ "<a href='../../../zytblaction?method=delete&zya="+d.zya+"' onclick='return confirm(\"确定要删除吗\")'>删除</a></td>";
+                    zytbls=zytbls+"</tr>"
+                }
+                $("#diszytbl").append(zytbls)
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+    }
+    getZytbls()
+    function modify(zya,zyb,zyc,zyd) {
+        disUI(0)
+        $("#btnZy").html("修改")
+        $("#oldzya").val(zya)
+        $("#zya").val(zya)
+        $("#zyb").val(zyb)
+        $("#zyc").val(zyc)
+        $("#zyd").val(zyd)
+    }
+
+    function disUI(i) {
+        if (i==0) {
+            $("#zytblUI").css("display", "block");
+            $("#zyUI").css("display", "none")
+        }
+        if (i==1) {
+            $("#zytblUI").css("display", "none");
+            $("#zyUI").css("display", "block")
+        }
+    }
+
+    function update() {
+        //用户数数据校验
+        var zya=$("#zya").val()
+        var oldzya=$("#oldzya").val()
+        var zyb=$("#zyb").val()
+        var zyc=$("#zyc").val()
+        var zyd=$("#zyd").val()
+        var method="insert"
+        if ($("#btnZy").html()=="修改")
+            method="update"
+        //jQuery就是$
+        jQuery.ajax({
+            url:"../../../zytblaction",
+            data:{oldzya:oldzya,zya:zya,zyb:zyb,zyc:zyc,zyd:zyd,method:method},
+            success:function (r) {
+                alert(r)
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+
+    }
+</script>

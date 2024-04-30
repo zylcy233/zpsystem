@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zpsystem.mapper.AdminMapper">
+    <select id="getOne" parameterType="Map" resultType="Map">
+        select * from adm where aid=#{aid} and apasswd=#{apasswd}
+    </select>
+    <update id="changepwd" parameterType="Map">
+        update adm set apasswd=#{apasswd} where aid=#{aid}
+    </update>
+    <select id="selectadm" parameterType="Map" resultType="Map">
+select * from (
+        select a.*,rownum rn from adm a where aname like '%${find}%')
+        b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
+    </select>
+    <delete id="delete" parameterType="Map">
+        delete from adm where aid=${aid}
+    </delete>
+
+</mapper>
