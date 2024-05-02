@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -279,6 +280,13 @@ public class RecruiterServiceImpl implements RecrutierService{
             sql="select * from Recruiter";
         else  sql="select * from Recruiter where rname like '%"+rname+"%'";
         return DDLDML.getRec(sql);
+    }
+
+    @Override
+    public List getRec(Map map) {
+        logger.debug(map);
+        List m=rMapper.select(map);
+        return m;
     }
 
 //    @Override

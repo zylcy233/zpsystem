@@ -1,13 +1,16 @@
 package com.zpsystem.action;
 
-
 import com.alibaba.fastjson.JSON;
 import com.zpsystem.dao.DDLDML;
 import com.zpsystem.entity.Jobposting;
 import com.zpsystem.service.JpService;
-import com.zpsystem.service.JpServiceImpl;
 import com.zpsystem.util.zyUtil;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.ls.LSOutput;
 
 
@@ -19,11 +22,34 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@WebServlet(urlPatterns = "/Jpaction")
+
+@RestController
+@RequestMapping("/Jpaction")
 public class JpServlet extends HttpServlet {
-    JpService jpService = new JpServiceImpl();
-    Logger logger=Logger.getLogger(String.valueOf(JSServlet.class));
+    @Autowired
+    JpService jpService;
+    Logger logger=Logger.getLogger(String.valueOf(JpServlet.class));
+
+    //TODO No mapping for POST /zpSystem/Jpaction/getJp
+    @PostMapping("/getJp")
+    List getJp(HttpServletRequest req,  @RequestParam Map m) throws IOException {
+        logger.debug("m:" + m);
+        HashMap adm= (HashMap) req.getSession().getAttribute("adm");
+        m.put("jsid",adm.get("jsid"));
+        return jpService.getNewJp(m);
+    }
+
+    //TODO POST "/zpSystem/Jpaction/getnewJP", parameters={masked}
+    @PostMapping("/getnewJP")
+    List getnewJP(HttpServletRequest req,  @RequestParam Map m) throws IOException {
+        logger.debug("m:" + m);
+        HashMap adm= (HashMap) req.getSession().getAttribute("adm");
+        m.put("jsid",adm.get("jsid"));
+        return jpService.getJp(m);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

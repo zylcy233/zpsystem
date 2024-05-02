@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.zpsystem.util.zyUtil.*;
 
@@ -429,6 +426,20 @@ public class JSServiceImpl implements JsService{
         logger.debug(sql);
         return DDLDML.getJobseekers(sql);
 
+    }
+
+    @Override
+    public List getJS(Map map) {
+        logger.debug(map);
+        List m=jsMapper.select(map);
+        return m;
+    }
+
+    @Override
+    public List getJsone(Map map) {
+        logger.debug(map);
+        List m=jsMapper.getone(map);
+        return m;
     }
 
     private static boolean isExit(int jsid) {

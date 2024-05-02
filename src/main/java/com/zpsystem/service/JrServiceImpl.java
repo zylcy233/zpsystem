@@ -2,14 +2,22 @@ package com.zpsystem.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.zpsystem.dao.DDLDML;
 import com.zpsystem.entity.Jobresume;
+import com.zpsystem.mapper.JrMapper;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
-
+@Service
 public class JrServiceImpl implements JrService{
+	@Autowired
+	JrMapper jrMapper;
+
 	org.apache.log4j.Logger logger= Logger.getLogger(String.valueOf(JrServiceImpl.class));
 	String oraclesql=" SELECT *, rownum as rn  \n" +
 	        "    FROM jobresume  a";
@@ -120,6 +128,20 @@ return DDLDML.我能执行DDL和DML中的insertdeleteupdate(sql);
                 (pageIndex * pagesize+pagesize);
         logger.debug(sql);
         return DDLDML.getJobresume(sql);
+	}
+
+	@Override
+	public List getJr(Map map) {
+		logger.debug(map);
+		List m=jrMapper.select(map);
+		return m;
+	}
+
+	@Override
+	public List getJrone(Map map) {
+		logger.debug(map);
+		List m=jrMapper.getone(map);
+		return m;
 	}
 
 }

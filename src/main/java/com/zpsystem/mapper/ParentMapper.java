@@ -9,5 +9,8 @@ public interface ParentMapper {
     boolean changepwd(Map map);
     List selectadm(Map map);
     List select(Map map);
+    List get(Map map);
+    List getone(Map map);
     boolean delete(Object object);
+    boolean update(Object object);
 }

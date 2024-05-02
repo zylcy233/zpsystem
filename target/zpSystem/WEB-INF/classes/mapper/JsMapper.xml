@@ -3,6 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zpsystem.mapper.JsMapper">
+    <select id="getone" parameterType="Map" resultType="Map">
+        select * from Jobseekers where jsid=#{jsid} and jspasswd=#{jspasswd}
+    </select>
     <select id="getOne" parameterType="Map" resultType="Map">
         select * from Jobseekers where jsid=#{jsid} and jspasswd=#{jspasswd}
     </select>
@@ -13,5 +16,10 @@
     <update id="changepwd" parameterType="Map">
         update Jobseekers set jspasswd=#{jspasswd} where jsid=#{jsid}
     </update>
+    <select id="select" parameterType="Map" resultType="Map">
+        select * from (select a.*,rownum rn from Jobseekers a where jsname like '%${find}%')
+        b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
+    </select>
+
 
 </mapper>

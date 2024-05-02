@@ -16,6 +16,10 @@ public interface ComService {
     boolean updateCom(HashMap<String ,String> m);
     boolean checkCom(HashMap<String, String> m);
 
+    boolean update(Map m);
+    boolean delete(Map m);
+
+
     List getCom(Map map);
 
     boolean insertCom(Company company);

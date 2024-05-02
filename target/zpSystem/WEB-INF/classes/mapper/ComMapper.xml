@@ -8,5 +8,12 @@ select * from (
        select a.*,rownum rn from company a where cname like '%${find}%')
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
    </select>
+    <update id="update" parameterType="Map">
+        update company set Cname=#{cname, jdbcType=VARCHAR} , Cdescription=#{cdescription, jdbcType=VARCHAR} , Caddress=#{caddress, jdbcType=VARCHAR} ,
+         Ctel=#{ctel, jdbcType=INTEGER} , Cpasswd=#{cpasswd, jdbcType=VARCHAR} where cid=#{cid, jdbcType=INTEGER}
+    </update>
+    <delete id="delete" parameterType="Map">
+        delete from company where cid=${cid}
+    </delete>
 
 </mapper>

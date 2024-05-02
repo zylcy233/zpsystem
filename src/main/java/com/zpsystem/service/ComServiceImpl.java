@@ -54,6 +54,21 @@ public class ComServiceImpl implements ComService{
     }
 
     @Override
+    public boolean update(Map m) {
+        logger.debug(m);
+        boolean b;
+        b = comMapper.update(m);
+        return false;
+    }
+
+    @Override
+    public boolean delete(Map m) {
+        logger.debug(m);
+        boolean b=comMapper.delete(m);
+        return b;
+    }
+
+    @Override
     public List getCom(Map map) {
 //        String sql=null;
 //        String find= (String) map.get("find");

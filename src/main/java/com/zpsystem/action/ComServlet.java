@@ -8,10 +8,7 @@ import com.zpsystem.util.zyUtil;
 import org.apache.jasper.runtime.JspRuntimeLibrary;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.ServletException;
@@ -51,6 +48,36 @@ public class ComServlet extends HttpServlet {
         logger.debug(map);
 //        resp.getWriter().print(comService.getCom((HashMap<String, String>) map));
         return comService.getCom(map);
+    }
+    @PostMapping("/update")
+    String edit(HttpServletRequest request, HttpServletResponse resp,@RequestParam Map map) throws IOException {
+        logger.debug(map);
+//        String data = request.getParameter("Company");
+//        logger.debug("data1:"+data);
+//        data = data.substring(1, data.length() - 1);
+//        logger.debug("data2:" + data);
+//        Company c = JSON.parseObject(data, Company.class);
+//        logger.debug("c:"+c);
+        if (comService.update(map)) {
+            resp.getWriter().print("OK");
+            return "OK";
+        } else {
+            resp.getWriter().print("fail");
+            return "fail";
+        }
+    }
+
+    @GetMapping("/delete")
+    String delet(HttpServletRequest request, HttpServletResponse resp,@RequestParam Map m) throws IOException {
+        logger.debug(m);
+        if (comService.delete(m)){
+            resp.getWriter().print("OK");
+            return "OK";
+        }
+        else{
+            resp.getWriter().print("fail");
+            return "fail";
+        }
     }
 
 

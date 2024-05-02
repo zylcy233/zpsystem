@@ -8,6 +8,11 @@ import com.zpsystem.service.JSServiceImpl;
 import com.zpsystem.service.JsService;
 import com.zpsystem.util.zyUtil;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.ls.LSOutput;
 
 import javax.servlet.ServletException;
@@ -18,17 +23,34 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@WebServlet(urlPatterns = "/JSaction")
+@RestController
+@RequestMapping("/JSaction")
 public class JSServlet extends HttpServlet {
-    JsService jsService = new JSServiceImpl();
+    @Autowired
+    JsService jsService;
+
     Logger logger=Logger.getLogger(String.valueOf(JSServlet.class));
+
+    @PostMapping("/getJS")
+    List getJS(HttpServletRequest req, HttpServletResponse resp, @RequestParam Map m) throws IOException {
+        logger.debug("m:" + m);
+        return jsService.getJS(m);
+    }
+    @PostMapping("/getJsone")
+    List getJSone(HttpServletRequest req, HttpServletResponse resp, @RequestParam Map m) throws IOException {
+        logger.debug("m:" + m);
+        Map adm= (Map) req.getSession().getAttribute("adm");
+        logger.debug("adm:"+adm);
+        return jsService.getJsone(adm);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

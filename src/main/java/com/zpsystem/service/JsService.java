@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,5 +28,7 @@ public interface JsService {
     void update();
     void select();
     ArrayList<Jobseekers> getJs(HashMap<String, String> m);
+    List getJS(Map map);
+    List getJsone(Map map);
 
 }
