@@ -11,6 +11,7 @@ public interface ParentMapper {
     List select(Map map);
     List get(Map map);
     List getone(Map map);
+    boolean insert(Object object);
     boolean delete(Object object);
     boolean update(Object object);
 }

@@ -7,15 +7,10 @@ import com.zpsystem.service.JpService;
 import com.zpsystem.util.zyUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.w3c.dom.ls.LSOutput;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,22 +28,46 @@ public class JpServlet extends HttpServlet {
     JpService jpService;
     Logger logger=Logger.getLogger(String.valueOf(JpServlet.class));
 
-    //TODO No mapping for POST /zpSystem/Jpaction/getJp
     @PostMapping("/getJp")
     List getJp(HttpServletRequest req,  @RequestParam Map m) throws IOException {
+        logger.debug("m:" + m);
+        HashMap adm= (HashMap) req.getSession().getAttribute("adm");
+        m.put("jsid",adm.get("jsid"));
+        return jpService.getJp(m);
+    }
+
+    @PostMapping("/getnewJP")
+    List getnewJP(HttpServletRequest req,  @RequestParam Map m) throws IOException {
+        String find = req.getParameter("find");
+        m.put("find",find);
         logger.debug("m:" + m);
         HashMap adm= (HashMap) req.getSession().getAttribute("adm");
         m.put("jsid",adm.get("jsid"));
         return jpService.getNewJp(m);
     }
 
-    //TODO POST "/zpSystem/Jpaction/getnewJP", parameters={masked}
-    @PostMapping("/getnewJP")
-    List getnewJP(HttpServletRequest req,  @RequestParam Map m) throws IOException {
-        logger.debug("m:" + m);
-        HashMap adm= (HashMap) req.getSession().getAttribute("adm");
-        m.put("jsid",adm.get("jsid"));
-        return jpService.getJp(m);
+    @GetMapping("/shoucang")
+    String  shoucang(HttpServletRequest req, HttpServletResponse resp,@RequestParam Map map){
+        Map adm= (Map) req.getSession().getAttribute("adm");
+        map.put("jsid",adm.get("jsid"));
+        logger.debug(map);
+        if (jpService.insertNewJp(map)){
+            return "OK";
+        }else {
+            return "fail";
+        }
+    }
+
+    @GetMapping("/delshoucang")
+    String  delshoucang(HttpServletRequest req, HttpServletResponse resp,@RequestParam Map map){
+        Map adm= (Map) req.getSession().getAttribute("adm");
+        map.put("jsid",adm.get("jsid"));
+        logger.debug(map);
+        if (jpService.deletNewJp(map)){
+            return "OK";
+        }else {
+            return "fail";
+        }
     }
 
     @Override

@@ -67,6 +67,12 @@ public class JSloginServlet extends HttpServlet {
         }
     }
 
+    @GetMapping("/logout")
+    void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException {
+        request.getSession().setAttribute("adm",null);
+        resp.sendRedirect("http://localhost:8080/zpSystem/flogin.html");
+    }
+
 
 
     @Override
@@ -81,7 +87,7 @@ public class JSloginServlet extends HttpServlet {
                 changepwd(request,resp);
                 break;
             case "logout":
-                logout(request,resp);
+//                logout(request,resp);
             case "zhuce":
                 zhuce(request,resp);
                 break;
@@ -140,10 +146,10 @@ public class JSloginServlet extends HttpServlet {
         logger.debug(sql);
     }
 
-    private void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException {
-        request.getSession().setAttribute("adm",null);
-        resp.sendRedirect("exit");
-    }
+//    private void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException {
+//        request.getSession().setAttribute("adm",null);
+//        resp.sendRedirect("exit");
+//    }
     private void zhuce(HttpServletRequest request, HttpServletResponse resp) throws IOException {
         String jsid=request.getParameter("jsid");
         String jsname=request.getParameter("jsname");

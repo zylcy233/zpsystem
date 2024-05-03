@@ -32,13 +32,13 @@
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
             <div type="checkcolumn" ></div>        
-            <div field="jpid" width="120" headerAlign="center" allowSort="true">jpid</div>
-            <div field="cid" width="120" headerAlign="center" allowSort="true">公司</div>
-            <div field="jppost" width="100" align="center" >招聘岗位</div>
-            <div field="jpsalary" width="100" align="center" >薪资待遇</div>
-            <div field="jpaddress" width="100" align="center" >工作地址</div>
-            <div field="jprequest" width="100" align="center" >应聘要求</div>
-            <div field="rid" width="100" align="center" >招聘者</div>
+            <div field="JPID" width="120" headerAlign="center" allowSort="true">jpid</div>
+            <div field="CID" width="120" headerAlign="center" allowSort="true">公司</div>
+            <div field="JPPOST" width="100" align="center" >招聘岗位</div>
+            <div field="JPSALARY" width="100" align="center" >薪资待遇</div>
+            <div field="JPADDRESS" width="100" align="center" >工作地址</div>
+            <div field="JPREQUEST" width="100" align="center" >应聘要求</div>
+            <div field="RID" width="100" align="center" >招聘者</div>
         </div>
     </div>
     
@@ -64,14 +64,14 @@
                     for (var i = 0, l = rows.length; i<l; i++) {
                         var r = rows[i];
                         console.log(r)
-                        ids.push(r.jpid);
+                        ids.push(r.JPID);
                     }
                     var id = ids.join(',');
                     alert(id)
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../../Jpaction",
-                        data:{method:"shoucang",jpid:id},
+                        url: "../../Jpaction/shoucang",
+                        data:{jpid:id},
                         success: function (text) {
                             grid.reload();
                         },

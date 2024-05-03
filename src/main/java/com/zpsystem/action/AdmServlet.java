@@ -58,11 +58,10 @@ public class AdmServlet extends HttpServlet {
             }
         }
 
-        @PostMapping("/logout")
+        @GetMapping("/logout")
     void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException {
             request.getSession().setAttribute("adm",null);
-            //TODO 跳转有问题
-            resp.sendRedirect("exit");
+            resp.sendRedirect("http://localhost:8080/zpSystem/flogin.html");
         }
     }
 

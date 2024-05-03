@@ -120,4 +120,18 @@ return DDLDML.我能执行DDL和DML中的insertdeleteupdate(sql);
 		return l;
 	}
 
+	@Override
+	public boolean insertNewJp(Map map) {
+		logger.debug(map);
+		boolean b=jpMapper.insert(map);
+		return b;
+	}
+
+	@Override
+	public boolean deletNewJp(Map map) {
+		logger.debug(map);
+		boolean b=jpMapper.delete(map);
+		return b;
+	}
+
 }

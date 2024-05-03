@@ -23,5 +23,7 @@ public interface JpService {
     ArrayList<Jobposting> getJp(HashMap<String, String> m);
     List getJp(Map map);
     List getNewJp(Map map);
+    boolean insertNewJp(Map map);
+    boolean deletNewJp(Map map);
 
 }
