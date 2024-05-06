@@ -14,4 +14,8 @@
         select * from (select a.*,rownum rn from Recruiter a where rname like '%${find}%')
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
     </select>
+    <select id="getone" parameterType="Map" resultType="Map">
+        select * from (select a.*,rownum rn from Recruiter a where rid=${rid})
+        b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
+    </select>
 </mapper>

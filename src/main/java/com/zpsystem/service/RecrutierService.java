@@ -21,5 +21,6 @@ public interface RecrutierService {
     void select();
     ArrayList<Recruiter> getRec(String rname);
     List getRec(Map map);
+    List getRecOne(Map map);
 
 }

@@ -1,6 +1,5 @@
 package com.zpsystem.action;
 
-import com.zpsystem.dao.DDLDML;
 import com.zpsystem.service.RecrutierService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/Raction")
+@RequestMapping("/recaction")
 public class RecruiterServlet extends HttpServlet {
     Logger logger=Logger.getLogger(String.valueOf(RecruiterServlet.class));
 
@@ -32,14 +27,16 @@ public class RecruiterServlet extends HttpServlet {
     @PostMapping("/getRec")
     List getRec(HttpServletRequest req, HttpServletResponse resp, @RequestParam Map m) {
         logger.debug("m:" + m);
-        return recrutierService.getRec(m);
+        List l=recrutierService.getRec(m);
+        return l;
     }
 
+    @PostMapping("/getRecOne")
+    List getRecOne(HttpServletRequest req, HttpServletResponse resp, @RequestParam Map m) {
+        logger.debug("m:" + m);
+        List l=recrutierService.getRecOne(m);
+        return l;
+    }
 
 }
-//}
 
-
-
-//    login.jsp?op=logout;
-        //注销之后就算后退界面也无法进行增删改，且跳转登陆界面

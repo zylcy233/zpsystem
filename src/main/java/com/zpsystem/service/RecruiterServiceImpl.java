@@ -285,8 +285,15 @@ public class RecruiterServiceImpl implements RecrutierService{
     @Override
     public List getRec(Map map) {
         logger.debug(map);
-        List m=rMapper.select(map);
-        return m;
+        List l=rMapper.select(map);
+        return l;
+    }
+
+    @Override
+    public List getRecOne(Map map) {
+        logger.debug(map);
+        List l=rMapper.getone(map);
+        return l;
     }
 
 //    @Override
