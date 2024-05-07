@@ -87,7 +87,7 @@
             console.log(json);
 
             $.ajax({
-                url: "../../comaction/update",
+                url: "../../comaction/update", // save
 		        type: 'post',
                 data: { Company: json},
                 cache: false,
@@ -105,8 +105,10 @@
         //标准方法接口定义
         var method="insert"
         function SetData(data) {
+            console.log("1111111111111111")
             method=data.action
-            if (data.action == "update") {
+            console.log(data.action=="update")
+            if (data.action === "update") {
                 //跨页面传递的数据对象，克隆后才可以安全使用
                 data = mini.clone(data);
                 var jsdata=data.jsdata

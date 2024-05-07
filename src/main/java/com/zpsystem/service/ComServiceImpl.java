@@ -55,10 +55,11 @@ public class ComServiceImpl implements ComService{
 
     @Override
     public boolean update(Map m) {
+        //  先查  有就更新  没有就保存
         logger.debug(m);
         boolean b;
         b = comMapper.update(m);
-        return false;
+        return b;
     }
 
     @Override
