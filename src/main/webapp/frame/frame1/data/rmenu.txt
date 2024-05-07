@@ -1,6 +1,7 @@
 ﻿[
 { "id": "jr", iconCls: "fa fa-barcode", text: "招聘者个人信息", url: "../../demo/datagrid/RecruiterOne.html" },
-{ "id": "JS", iconCls: "fa fa-barcode", text: "求职者简历查看", url: "../../demo/datagrid/JS.html" },
-{ "id": "jp", iconCls: "fa fa-barcode", text: "招聘信息", url: "pages/1.html" }
+{ "id": "JS", iconCls: "fa fa-barcode", text: "求职者简历查看", url: "../../demo/datagrid/JRtwo.html" },
+{ "id": "jp", iconCls: "fa fa-barcode", text: "招聘信息", url: "pages/1.html" },
+{ "id": "njs", iconCls: "fa fa-barcode", text: "我的收藏", url: "pages/1.html"}
 
 ]

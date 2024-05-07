@@ -51,6 +51,25 @@ public class RloginServlet extends HttpServlet {
         }
     }
 
+    @GetMapping("/changepwd")
+    void changepwd(HttpServletRequest request,HttpServletResponse resp,@RequestParam Map map) throws IOException {
+        PrintWriter out=resp.getWriter();
+        Map adm= (Map) request.getSession().getAttribute("adm");
+        map.put("rid",adm.get("rid"));
+        logger.debug("adm:"+adm);
+        logger.debug(map);
+        if (!adm.get("rpasswd").equals(map.get("oldrpasswd"))){
+            out.print("olderror");
+            return;
+        }
+        if (recrutierService.changepwd(map)){
+            adm.put("rpasswd",map.get("rpasswd"));
+            out.print("ok!");
+        }else {
+            out.print("fail");
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws IOException {
         String method=request.getParameter("method");

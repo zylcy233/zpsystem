@@ -12,6 +12,7 @@ import java.util.Map;
 public interface RecrutierService {
     boolean login(Map map);
     boolean zhuce(Map map);
+    boolean changepwd(Map map);
     boolean insertRec(Recruiter recruiter);
     boolean deleterRec(Recruiter recruiter);
     boolean updateRec(Recruiter recruiter);

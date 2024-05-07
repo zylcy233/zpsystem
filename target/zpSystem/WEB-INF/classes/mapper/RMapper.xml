@@ -10,6 +10,9 @@
         insert into Recruiter(rid,rname,rsex,cid,rtel,rpasswd,remail) values(
                 #{rid},#{rname},#{rsex},#{cid},#{rtel},#{rpasswd},#{remail})
     </insert>
+    <update id="changepwd" parameterType="Map">
+        update Recruiter set rpasswd=#{jspasswd} where rid=#{rid}
+    </update>
     <select id="select" parameterType="Map" resultType="Map">
         select * from (select a.*,rownum rn from Recruiter a where rname like '%${find}%')
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})

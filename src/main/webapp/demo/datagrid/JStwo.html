@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>求职者管理</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="../demo.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../scripts/boot.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>求职者管理</h1>
+
+    <div style="width:800px;">
+        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%;">
+                        <a class="mini-button" iconCls="icon-add" onclick="add()">收藏</a>
+                    </td>
+                    <td style="white-space:nowrap;">
+                        <input id="key" class="mini-textbox" emptyText="请输入公司名称" style="width:150px;" onenter="onKeyEnter"/>   
+                        <a class="mini-button" onclick="search()">查询</a>
+                    </td>
+                </tr>
+            </table>           
+        </div>
+    </div>
+    <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" allowResize="true"
+        url="../../JSaction/getJS"  idField="id" multiSelect="true"
+    >
+        <div property="columns">
+            <!--<div type="indexcolumn"></div>        -->
+            <div type="checkcolumn" ></div>        
+            <div field="JSID" width="120" headerAlign="center" allowSort="true">JSid</div>
+            <div field="JSNAME" width="120" headerAlign="center" allowSort="true">姓名</div>
+            <div field="JSSEX" width="100" >性别</div>
+            <div field="JSBIRTH" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" renderer="onBirthdayRenderer" allowSort="true">生日</div>
+            <div field="JSTEL" width="100" align="center" >联系方式</div>
+            <div field="JSADRRESS" width="100" align="center" >地址</div>
+            <div field="JSEMAIL" width="100" align="center" >邮箱</div>
+        </div>
+    </div>
+    
+
+    <script type="text/javascript">
+        mini.parse();
+
+        var grid = mini.get("datagrid1");
+        grid.load();
+        grid.sortBy("createtime", "desc");
+
+        
+        function add() {
+            
+            mini.open({
+                url: "../../demo/CommonLibs/JSWindow.html" ,
+                title: "新增求职者", width: 600, height: 400,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    var data = { action: "insert"};
+                    iframe.contentWindow.SetData(data);
+                },
+                ondestroy: function (action) {
+
+                    grid.reload();
+                }
+            });
+        }
+        function edit() {
+         
+            var row = grid.getSelected();
+            if (row) {
+                row.oldjsid=row.jsid
+                console.log(row)
+                console.log(typeof row)
+                mini.open({
+                    url:  "../../demo/CommonLibs/JSWindow.html",
+                    title: "编辑求职者", width: 600, height: 400,
+                    onload: function () {
+                        var iframe = this.getIFrameEl();
+                        var data = { action: "update", jsdata:JSON.stringify(row)};
+                        iframe.contentWindow.SetData(data);
+                        
+                    },
+                    ondestroy: function (action) {
+                        grid.reload();
+                        
+                    }
+                });
+                
+            } else {
+                alert("请选中一条记录");
+            }
+            
+        }
+        function remove() {
+            var rows = grid.getSelecteds();
+            if (rows.length > 0) {
+                if (confirm("确定删除选中记录？")) {
+                    var ids = [];
+                    for (var i = 0, l = rows.length; i<l; i++) {
+                        var r = rows[i];
+                        console.log(r)
+                        ids.push(r.jsid);
+                    }
+                    var id = ids.join(',');
+                    alert(id)
+                    grid.loading("操作中，请稍后......");
+                    $.ajax({
+                        url: "../../JSaction",
+                        data:{method:"delete",jsid:id},
+                        success: function (text) {
+                            grid.reload();
+                        },
+                        error: function () {
+                        }
+                    });
+                }
+            } else {
+                alert("请选中一条记录");
+            }
+        }
+        function shoucang() {
+            var rows = grid.getSelecteds();
+            if (rows.length > 0) {
+                if (confirm("确定收藏该招聘信息？")) {
+                    var ids = [];
+                    for (var i = 0, l = rows.length; i<l; i++) {
+                        var r = rows[i];
+                        console.log(r)
+                        ids.push(r.jsid);
+                    }
+                    var id = ids.join(',');
+                    alert(id)
+                    grid.loading("操作中，请稍后......");
+                    $.ajax({
+                        url: "../../JSaction",
+                        data:{method:"jsshoucang",jsid:id},
+                        success: function (text) {
+                            grid.reload();
+                        },
+                        error: function () {
+                        }
+                    });
+                }
+            } else {
+                alert("请选中一条记录");
+            }
+        }
+        function search() {
+            var key = mini.get("key").getValue();
+            grid.load({ find: key });
+        }
+        function onKeyEnter(e) {
+            search();
+        }
+        /////////////////////////////////////////////////
+        function onBirthdayRenderer(e) {
+            var value = e.value;
+            if (value) return mini.formatDate(value, 'yyyy-MM-dd');
+            return "";
+        }
+        function onMarriedRenderer(e) {
+            if (e.value == 1) return "是";
+            else return "否";
+        }
+        var JSsex = [{ id: 1, text: '男' }, { id: 2, text: '女'}];
+        function onJSsexRenderer(e) {
+            for (var i = 0, l = JSsex.length; i < l; i++) {
+                var g = JSsex[i];
+                if (g.id == e.value) return g.text;
+            }
+            return "";
+            
+        }
+
+
+
+
+
+    </script>
+
+    <div class="description">
+        <h3>Description</h3>
+        
+    </div>
+</body>
+</html>

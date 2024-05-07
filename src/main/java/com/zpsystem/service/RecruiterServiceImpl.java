@@ -38,6 +38,13 @@ public class RecruiterServiceImpl implements RecrutierService{
     }
 
     @Override
+    public boolean changepwd(Map map) {
+        logger.debug(map);
+        boolean b=rMapper.changepwd(map);
+        return b;
+    }
+
+    @Override
     public boolean insertRec(Recruiter recruiter) {
         String sql="insert into Recruiter(rid,rname,rsex,cid,rtel,rpasswd)"
                 +"values ('"
