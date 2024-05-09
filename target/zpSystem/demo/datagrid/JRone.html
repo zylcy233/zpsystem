@@ -74,7 +74,7 @@
          
             var row = grid.getSelected();
             if (row) {
-                row.oldjrid=row.jrid
+                row.oldjrid=row.JRID
                 console.log(row)
                 console.log(typeof row)
                 mini.open({
@@ -106,15 +106,16 @@
                     for (var i = 0, l = rows.length; i<l; i++) {
                         var r = rows[i];
                         console.log(r)
-                        ids.push(r.jrid);
+                        ids.push(r.JRID);
                     }
                     var id = ids.join(',');
                     alert(id)
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../../Jraction",
-                        data:{method:"delete",jrid:id},
+                        url: "../../Jraction/delete",
+                        data:{jrid:id},
                         success: function (text) {
+                            alert(text);
                             grid.reload();
                         },
                         error: function () {

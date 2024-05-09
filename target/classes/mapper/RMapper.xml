@@ -10,6 +10,13 @@
         insert into Recruiter(rid,rname,rsex,cid,rtel,rpasswd,remail) values(
                 #{rid},#{rname},#{rsex},#{cid},#{rtel},#{rpasswd},#{remail})
     </insert>
+<!--    TODO 前端map有数据，但是显示插入值为空-->
+    <insert id="insert" parameterType="Map">
+        insert into Recruiter(rid,rname,rsex,cid,rtel,rpasswd,remail) values(
+                #{rid, jdbcType=INTEGER},#{rname, jdbcType=VARCHAR},#{rsex, jdbcType=VARCHAR},
+                #{cid, jdbcType=INTEGER},#{rtel, jdbcType=INTEGER},
+                #{rpasswd, jdbcType=VARCHAR},#{remail, jdbcType=VARCHAR})
+    </insert>
     <update id="changepwd" parameterType="Map">
         update Recruiter set rpasswd=#{jspasswd} where rid=#{rid}
     </update>
@@ -21,4 +28,7 @@
         select * from (select a.*,rownum rn from Recruiter a where rid=${rid})
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
     </select>
+    <delete id="delete" parameterType="Map">
+        delete from Recruiter where rid in ${rid}
+    </delete>
 </mapper>

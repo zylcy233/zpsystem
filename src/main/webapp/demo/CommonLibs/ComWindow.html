@@ -76,7 +76,7 @@
 
         var form = new mini.Form("form1");   // new FormData()
 
-        function SaveData() {
+        function SaveData(data) {
             var o = form.getData();            
 
             form.validate();
@@ -87,8 +87,8 @@
             console.log(json);
 
             $.ajax({
-                url: "../../comaction/update", // save
-		        type: 'post',
+                url: "../../comaction/insert", // save
+		        type: 'get',
                 data: { Company: json},
                 cache: false,
                 success: function (text) {
@@ -111,14 +111,14 @@
             if (data.action === "update") {
                 //跨页面传递的数据对象，克隆后才可以安全使用
                 data = mini.clone(data);
-                var jsdata=data.jsdata
-                console.log(jsdata)
-                console.log(typeof jsdata)
-                jsdata=JSON.parse(jsdata)
-                form.setData(jsdata)
+                var comdata=data.comdata
+                console.log(comdata)
+                console.log(typeof comdata)
+                jsdata=JSON.parse(comdata)
+                form.setData(comdata)
                 $.ajax({
                     url: "../../comaction/update",
-                    data:{jsdata:jsdata},
+                    data:{Company:comdata},
                     cache: false,
                     success: function (text) {
                         var o = mini.decode(text);
@@ -148,7 +148,7 @@
         }
         function onOk(e) {
             SaveData();
-            // SetData();
+            SetData();
         }
         function onCancel(e) {
             CloseWindow("cancel");

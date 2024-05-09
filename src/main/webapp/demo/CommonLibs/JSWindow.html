@@ -91,7 +91,8 @@
 
         var form = new mini.Form("form1");   // new FormData()
 
-        function SaveData() {
+        function SaveData(data) {
+            console.log(data.action)
             var o = form.getData();            
 
             form.validate();
@@ -102,11 +103,12 @@
             console.log(json);
 
             $.ajax({
-                url: "../../JSaction",
+                url: "../../JSaction/insert",
 		        type: 'post',
-                data: { Jobseekers: json ,method:method},
+                data: { Jobseekers: json },
                 cache: false,
                 success: function (text) {
+                    alert(text);
                     CloseWindow("save");
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -121,6 +123,8 @@
         var method="insert"
         function SetData(data) {
             method=data.action
+            console.log(method)
+            console.log("1111111")
             if (data.action == "update") {
                 //跨页面传递的数据对象，克隆后才可以安全使用
                 data = mini.clone(data);
@@ -129,20 +133,21 @@
                 console.log(typeof jsdata)
                 jsdata=JSON.parse(jsdata)
                 form.setData(jsdata)
-                // $.ajax({
-                //     url: "../../JSaction?method=update",
-                //     data:{jsdata:json},
-                //     cache: false,
-                //     success: function (text) {
-                //         var o = mini.decode(text);
-                //         console.log(o)
-                //         form.setData(o);
-                //         form.setChanged(false);
-                //
-                //         onDeptChanged();
-                //         mini.getbyName("jsname").setValue(o.jsname);
-                //     }
-                // });
+                $.ajax({
+                    url: "../../JSaction/update",
+                    data:{jsdata:jsdata},
+                    cache: false,
+                    success: function (text) {
+                        alert(text);
+                        var o = mini.decode(text);
+                        console.log(o)
+                        form.setData(o);
+                        form.setChanged(false);
+
+                        onDeptChanged();
+                        mini.getbyName("jsname").setValue(o.JSNAME);
+                    }
+                });
             }
         }
 
@@ -161,6 +166,7 @@
         }
         function onOk(e) {
             SaveData();
+            SetData();
         }
         function onCancel(e) {
             CloseWindow("cancel");

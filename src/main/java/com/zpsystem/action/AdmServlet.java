@@ -14,7 +14,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+//@Controller
+@RestController
 @RequestMapping("/admaction")
 public class AdmServlet extends HttpServlet {
     Logger logger=Logger.getLogger(String.valueOf(AdmServlet.class));

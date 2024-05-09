@@ -3,15 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zpsystem.mapper.JrMapper">
-    <select id="getOne" parameterType="Map" resultType="Map">
-        select * from Jobseekers where jsid=#{jsid} and jspasswd=#{jspasswd}
-    </select>
-    <insert id="zhuce" parameterType="Map" >
-        insert into Jobseekers(jsid,jsname,jssex,jsbirth,jstel,jsaddress,jspasswd,jsemail) values(
-                #{jsid},#{jsname},#{jssex},to_date(#{jsbirth},'YYYY-MM-DD\"T\"HH24:MI:SS'),#{jstel},#{jsaddress},#{jspasswd},#{jsemail})
+<!--    TODO 插入数据类型有误-->
+    <insert id="insert" parameterType="Map">
+        insert into jobresume
+        values(JobResume_jrid.NEXTVAL,#{jsid},#{jsname},#{jrlvl},
+        #{jradvantage},#{jrintention},#{jrwork},#{jrobject},
+        #{jrschool},#{jrskill},#{jrcert})
     </insert>
     <update id="changepwd" parameterType="Map">
         update Jobseekers set jspasswd=#{jspasswd} where jsid=#{jsid}
+    </update>
+    <update id="update" parameterType="Map">
+        update jobresume set jppost=?
+				jsname=#{jsname},jrlvl=#{jrlvl},jradvantage=#{jradvantage}
+				jrintention=#{jrintention},jrwork=#{jrwork},jrobject=#{jrobject}
+				jrschool=#{jrschool},jrskill=#{jrskill},jrcert=#{jrcert}
+				 where jrid=#{oldjrid}
     </update>
     <select id="select" parameterType="Map" resultType="Map">
         select * from (select a.*,rownum rn from jobresume a where jrid like '%${find}%')

@@ -56,12 +56,12 @@
         function add() {
             
             mini.open({
-                url: "../../demo/CommonLibs/JSWindow.html" ,
+                url: "../../demo/CommonLibs/Window.html" ,
                 title: "新增招聘者", width: 600, height: 400,
                 onload: function () {
                     var iframe = this.getIFrameEl();
                     var data = { action: "insert"};
-                    iframe.contentWindow.SetData(data);
+                    iframe.contentWindow.SaveData(data);
                 },
                 ondestroy: function (action) {
 
@@ -104,13 +104,13 @@
                     for (var i = 0, l = rows.length; i<l; i++) {
                         var r = rows[i];
                         console.log(r)
-                        ids.push(r.rid);
+                        ids.push(r.RID);
                     }
                     var id = ids.join(',');
                     alert(id)
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../../Raction",
+                        url: "../../recaction/delete",
                         data:{method:"delete",rid:id},
                         success: function (text) {
                             grid.reload();

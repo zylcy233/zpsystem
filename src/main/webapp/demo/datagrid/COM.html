@@ -54,14 +54,13 @@
 
         
         function add() {
-            
             mini.open({
                 url: "../../demo/CommonLibs/ComWindow.html" ,
                 title: "新增公司信息", width: 600, height: 400,
                 onload: function () {
                     var iframe = this.getIFrameEl();
                     var data = { action: "insert"};
-                    iframe.contentWindow.SetData(data);
+                    iframe.contentWindow.SaveData(data);
                 },
                 ondestroy: function (action) {
 
@@ -73,7 +72,7 @@
          
             var row = grid.getSelected();
             if (row) {
-                row.oldcid=row.cid
+                row.oldcid=row.CID
                 console.log(row)
                 console.log(typeof row)
                 mini.open({
@@ -81,7 +80,7 @@
                     title: "编辑公司", width: 600, height: 400,
                     onload: function () {
                         var iframe = this.getIFrameEl();
-                        var data = { action: "update", jsdata:JSON.stringify(row)};
+                        var data = { action: "update", comdata:JSON.stringify(row)};
                         iframe.contentWindow.SetData(data);
                         
                     },
@@ -105,7 +104,7 @@
                     for (var i = 0, l = rows.length; i<l; i++) {
                         var r = rows[i];
                         console.log(r)
-                        ids.push(r.cid);
+                        ids.push(r.CID);
                     }
                     var id = ids.join(',');
                     alert(id)
@@ -114,6 +113,7 @@
                         url: "../../comaction/delete",
                         data:{cid:id},
                         success: function (text) {
+                            alert(text);
                             grid.reload();
                         },
                         error: function () {

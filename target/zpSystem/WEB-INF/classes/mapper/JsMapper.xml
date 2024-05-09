@@ -16,10 +16,20 @@
     <update id="changepwd" parameterType="Map">
         update Jobseekers set jspasswd=#{jspasswd} where jsid=#{jsid}
     </update>
+<!--    TODO 数据显示为null-->
+    <update id="update" parameterType="Map">
+        update Jobseekers
+        set jsid=#{jsid},jsname=#{jsname},jssex=#{jssex},jsbirth=(#{jsbirth},'YYYY-MM-DD\"T\"HH24:MI:SS'),
+        jstel=#{jstel},jsaddress=#{jsaddress},jspasswd=#{jspasswd},jsemail=#{jsemail}
+        where jsid=#{oldjsid}
+    </update>
     <select id="select" parameterType="Map" resultType="Map">
         select * from (select a.*,rownum rn from Jobseekers a where jsname like '%${find}%')
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
     </select>
+    <delete id="delete" parameterType="Map">
+        delete from Jobseekers where jsid in (${jsid})
+    </delete>
 
 
 </mapper>

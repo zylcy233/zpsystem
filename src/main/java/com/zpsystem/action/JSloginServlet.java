@@ -1,14 +1,10 @@
 package com.zpsystem.action;
 
-import com.zpsystem.dao.DDLDML;
 import com.zpsystem.service.JsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServlet;
@@ -19,7 +15,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+//@Controller
+@RestController
 @RequestMapping( "/jsloginaction")
 public class JSloginServlet extends HttpServlet {
     Logger logger=Logger.getLogger(String.valueOf(JSloginServlet.class));
@@ -75,27 +72,27 @@ public class JSloginServlet extends HttpServlet {
 
 
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws IOException {
-        String method=request.getParameter("method");
-        if (method==null) method="";
-        switch (method){
-            case "login":
-//                login(request,resp);
-                break;
-            case "changepwd":
-                changepwd(request,resp);
-                break;
-            case "logout":
-//                logout(request,resp);
-            case "zhuce":
-                zhuce(request,resp);
-                break;
-        }
-
-
-
-        }
+//    @Override
+//    protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws IOException {
+//        String method=request.getParameter("method");
+//        if (method==null) method="";
+//        switch (method){
+//            case "login":
+////                login(request,resp);
+//                break;
+//            case "changepwd":
+//                changepwd(request,resp);
+//                break;
+//            case "logout":
+////                logout(request,resp);
+//            case "zhuce":
+//                zhuce(request,resp);
+//                break;
+//        }
+//
+//
+//
+//        }
 
 //    private void login(HttpServletRequest request, HttpServletResponse resp) throws IOException {
 //        String op=request.getParameter("op");
@@ -122,66 +119,66 @@ public class JSloginServlet extends HttpServlet {
 //        }
 //    }
 
-    private void changepwd(HttpServletRequest request, HttpServletResponse resp) throws IOException {
-
-        String oldjspasswd=request.getParameter("oldjspasswd");
-        String jspasswd=request.getParameter("jspasswd");
-        PrintWriter out=resp.getWriter();
-        HashMap adm= (HashMap) request.getSession().getAttribute("adm");
-        logger.debug("adm:"+adm);
-        if (!adm.get("jspasswd").equals(oldjspasswd)){
-            out.print("olderror");
-            return;
-        }
-        String sql="update Jobseekers set jspasswd='"+jspasswd+"' where jsid="+adm.get("jsid");
-        logger.debug(sql);
-        if (DDLDML.我能执行DDL和DML中的insertdeleteupdate(sql)){
-            adm.put("jspasswd",jspasswd);
-            logger.debug("OK");
-            out.print("ok!");
-        }else {
-            logger.debug("fail");
-            out.print("fail");
-        }
-        logger.debug(sql);
-    }
+//    private void changepwd(HttpServletRequest request, HttpServletResponse resp) throws IOException {
+//
+//        String oldjspasswd=request.getParameter("oldjspasswd");
+//        String jspasswd=request.getParameter("jspasswd");
+//        PrintWriter out=resp.getWriter();
+//        HashMap adm= (HashMap) request.getSession().getAttribute("adm");
+//        logger.debug("adm:"+adm);
+//        if (!adm.get("jspasswd").equals(oldjspasswd)){
+//            out.print("olderror");
+//            return;
+//        }
+//        String sql="update Jobseekers set jspasswd='"+jspasswd+"' where jsid="+adm.get("jsid");
+//        logger.debug(sql);
+//        if (DDLDML.我能执行DDL和DML中的insertdeleteupdate(sql)){
+//            adm.put("jspasswd",jspasswd);
+//            logger.debug("OK");
+//            out.print("ok!");
+//        }else {
+//            logger.debug("fail");
+//            out.print("fail");
+//        }
+//        logger.debug(sql);
+//    }
 
 //    private void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException {
 //        request.getSession().setAttribute("adm",null);
 //        resp.sendRedirect("exit");
 //    }
-    private void zhuce(HttpServletRequest request, HttpServletResponse resp) throws IOException {
-        String jsid=request.getParameter("jsid");
-        String jsname=request.getParameter("jsname");
-        String jssex=request.getParameter("jssex");
-        String jsbirth=request.getParameter("jsbirth");
-        String jstel=request.getParameter("jstel");
-        String jsaddress = request.getParameter("jsaddress");
-        String jspasswd=request.getParameter("jspasswd");
-        String jsemail=request.getParameter("jsemail");
-        PrintWriter out=resp.getWriter();
-
-        String sql="insert into Jobseekers(jsid,jsname,jssex,jsbirth,jstel,jsaddress,jspasswd,jsemail)"+" values('"
-                +jsid+"','"
-                +jsname+"','"
-                +jssex+"',to_date('"
-                +jsbirth+"','YYYY-MM-DD\"T\"HH24:MI:SS'),'"
-                +jstel+"','"
-                +jsaddress+"','"
-                +jspasswd+"','"
-                +jsemail+
-                "')";
-        logger.debug(sql);
-        if (DDLDML.我能执行DDL和DML中的insertdeleteupdate(sql)){
-//            adm.put("apasswd",apasswd);
-            logger.debug("OK");
-            out.print("ok!");
-        }else {
-            logger.debug("fail");
-            out.print("fail");
-        }
-
-    }
+//    private void zhuce(HttpServletRequest request, HttpServletResponse resp) throws IOException {
+//        String jsid=request.getParameter("jsid");
+//        String jsname=request.getParameter("jsname");
+//        String jssex=request.getParameter("jssex");
+//        String jsbirth=request.getParameter("jsbirth");
+//        String jstel=request.getParameter("jstel");
+//        String jsaddress = request.getParameter("jsaddress");
+//        String jspasswd=request.getParameter("jspasswd");
+//        String jsemail=request.getParameter("jsemail");
+//        PrintWriter out=resp.getWriter();
+//
+//        String sql="insert into Jobseekers(jsid,jsname,jssex,jsbirth,jstel,jsaddress,jspasswd,jsemail)"+" values('"
+//                +jsid+"','"
+//                +jsname+"','"
+//                +jssex+"',to_date('"
+//                +jsbirth+"','YYYY-MM-DD\"T\"HH24:MI:SS'),'"
+//                +jstel+"','"
+//                +jsaddress+"','"
+//                +jspasswd+"','"
+//                +jsemail+
+//                "')";
+//        logger.debug(sql);
+//        if (DDLDML.我能执行DDL和DML中的insertdeleteupdate(sql)){
+////            adm.put("apasswd",apasswd);
+//            logger.debug("OK");
+//            out.print("ok!");
+//        }else {
+//            logger.debug("fail");
+//            out.print("fail");
+//        }
+//
+//    }
 
 }
 //}

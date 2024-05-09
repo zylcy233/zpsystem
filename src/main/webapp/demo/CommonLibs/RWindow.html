@@ -26,55 +26,49 @@
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:80px;">求职者账号：</td>
+                    <td style="width:80px;">招聘者账号：</td>
                     <td style="width:150px;">    
-                        <input name="jsid" class="mini-textbox" required="true"  emptyText="范围在10000000~19999999"/>
+                        <input name="rid" class="mini-textbox" required="true"  emptyText="范围在40000000~49999999"/>
                     </td>
             
                 </tr>
                 <tr>
                     <td >姓名：</td>
                     <td >    
-                        <input name="jsname" class="mini-textbox" required="true"/>
+                        <input name="rname" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
                <tr>
                    <td style="width:80px;">性别：</td>
                    <td >
-                       <select name="jssex" class="mini-radiobuttonlist">
+                       <select name="rsex" class="mini-radiobuttonlist">
                            <option value="男">男</option>
                            <option value="女">女</option>
                        </select>
                    </td>
                </tr>
                 <tr>
-                    <td >出生日期：</td>
+                    <td >公司编号：</td>
                     <td >
-                        <input name="jsbirth" class="mini-datepicker" required="true" emptyText="请选择日期"/>
+                        <input name="cid" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td >联系方式：</td>
                     <td >
-                        <input name="jstel" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td >地址：</td>
-                    <td >
-                        <input name="jsaddress" class="mini-textbox" required="true"/>
+                        <input name="rtel" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
                 <tr>
                     <td >密码：</td>
                     <td >
-                        <input name="jspasswd" class="mini-textbox" required="true"/>
+                        <input name="rpasswd" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
                   <tr>
                     <td >邮箱：</td>
                     <td >
-                        <input name="jsemail" class="mini-textbox" required="true"/>
+                        <input name="remail" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
             </table>
@@ -91,8 +85,7 @@
 
         var form = new mini.Form("form1");   // new FormData()
 
-        function SaveData(data) {
-            console.log(data.action)
+        function SaveData() {
             var o = form.getData();            
 
             form.validate();
@@ -103,12 +96,11 @@
             console.log(json);
 
             $.ajax({
-                url: "../../JSaction/insert",
-		        type: 'post',
-                data: { Jobseekers: json },
+                url: "../../recaction/insert",
+		        type: 'get',
+                data: {data:json},
                 cache: false,
                 success: function (text) {
-                    alert(text);
                     CloseWindow("save");
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -123,29 +115,25 @@
         var method="insert"
         function SetData(data) {
             method=data.action
-            console.log(method)
-            console.log("1111111")
             if (data.action == "update") {
                 //跨页面传递的数据对象，克隆后才可以安全使用
                 data = mini.clone(data);
-                var jsdata=data.jsdata
-                console.log(jsdata)
-                console.log(typeof jsdata)
-                jsdata=JSON.parse(jsdata)
-                form.setData(jsdata)
+                var rdata=data.rdata
+                console.log(rdata)
+                console.log(typeof rdata)
+                rdata=JSON.parse(rdata)
+                form.setData(rdata)
                 $.ajax({
                     url: "../../JSaction/update",
-                    data:{jsdata:jsdata},
+                    data:{rdata:ron},
                     cache: false,
                     success: function (text) {
-                        alert(text);
                         var o = mini.decode(text);
                         console.log(o)
                         form.setData(o);
                         form.setChanged(false);
-
                         onDeptChanged();
-                        mini.getbyName("jsname").setValue(o.JSNAME);
+                        mini.getbyName("rname").setValue(o.rname);
                     }
                 });
             }
@@ -166,7 +154,6 @@
         }
         function onOk(e) {
             SaveData();
-            SetData();
         }
         function onCancel(e) {
             CloseWindow("cancel");

@@ -62,7 +62,7 @@
                 onload: function () {
                     var iframe = this.getIFrameEl();
                     var data = { action: "insert"};
-                    iframe.contentWindow.SetData(data);
+                    iframe.contentWindow.SaveData(data);
                 },
                 ondestroy: function (action) {
 
@@ -74,7 +74,7 @@
          
             var row = grid.getSelected();
             if (row) {
-                row.oldjsid=row.jsid
+                row.oldjsid=row.JSID
                 console.log(row)
                 console.log(typeof row)
                 mini.open({
@@ -105,15 +105,16 @@
                     for (var i = 0, l = rows.length; i<l; i++) {
                         var r = rows[i];
                         console.log(r)
-                        ids.push(r.jsid);
+                        ids.push(r.JSID);
                     }
                     var id = ids.join(',');
                     alert(id)
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../../JSaction",
-                        data:{method:"delete",jsid:id},
+                        url: "../../JSaction/delete",
+                        data:{jsid:id},
                         success: function (text) {
+                            alert(text);
                             grid.reload();
                         },
                         error: function () {
@@ -132,15 +133,16 @@
                     for (var i = 0, l = rows.length; i<l; i++) {
                         var r = rows[i];
                         console.log(r)
-                        ids.push(r.jsid);
+                        ids.push(r.JSID);
                     }
                     var id = ids.join(',');
                     alert(id)
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../../JSaction",
-                        data:{method:"jsshoucang",jsid:id},
+                        url: "../../JSaction/jsshoucang",
+                        data:{jsid:id},
                         success: function (text) {
+                            alert(text);
                             grid.reload();
                         },
                         error: function () {

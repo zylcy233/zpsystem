@@ -13,14 +13,8 @@ public interface RecrutierService {
     boolean login(Map map);
     boolean zhuce(Map map);
     boolean changepwd(Map map);
-    boolean insertRec(Recruiter recruiter);
-    boolean deleterRec(Recruiter recruiter);
-    boolean updateRec(Recruiter recruiter);
-    void insert();
-    void delete();
-    void update();
-    void select();
-    ArrayList<Recruiter> getRec(String rname);
+    boolean insert(Map map);
+    boolean delete(Map map);
     List getRec(Map map);
     List getRecOne(Map map);
 

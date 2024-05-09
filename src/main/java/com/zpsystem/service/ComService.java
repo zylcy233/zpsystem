@@ -11,23 +11,9 @@ import java.util.Map;
 
 @Service
 public interface ComService {
-     boolean insertCom(HashMap<String, String> m);
-    boolean deleteCom(HashMap<String ,String> m);
-    boolean updateCom(HashMap<String ,String> m);
-    boolean checkCom(HashMap<String, String> m);
-
     boolean update(Map m);
     boolean delete(Map m);
-
-
+    boolean insert(Map m);
     List getCom(Map map);
-
-    boolean insertCom(Company company);
-    boolean deleterCom(Company company);
-    boolean updateCom(Company company);
-//    void insert();
-//    void delete();
-//    void update();
-    ArrayList<Company> getCom(String cid);
 
 }

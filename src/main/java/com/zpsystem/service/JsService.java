@@ -15,19 +15,8 @@ public interface JsService {
     boolean login(Map map);
     boolean zhuce(Map map);
     boolean changepwd(Map map);
-    HashMap getJS(HashMap m);
-    boolean checkJs(HashMap<String, String> m);
-    boolean insertJS(HashMap<String, String> m);
-    boolean deleteJS(HashMap<String, String> m);
-    boolean updateJS(HashMap<String, String> m);
-    boolean insertJs(Jobseekers jobseekers);
-    boolean deleterJS(Jobseekers jobseekers);
-    boolean updateJS(Jobseekers jobseekers);
-    void insert();
-    void delete();
-    void update();
-    void select();
-    ArrayList<Jobseekers> getJs(HashMap<String, String> m);
+    boolean delete(Map map);
+    boolean update(Map map);
     List getJS(Map map);
     List getJsone(Map map);
 

@@ -25,18 +25,6 @@
         <input name="oldjrid" class="mini-hidden" />
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
-                <tr>
-                    <td style="width:80px;">编号：</td>
-                    <td style="width:150px;">    
-                        <input name="jrid" class="mini-textbox" required="true"  emptyText="范围在50000000~59999999之间"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td >求职者账号：</td>
-                    <td >    
-                        <input name="jsid" class="mini-textbox" required="true" emptyText="范围在10000000~19999999"/>
-                    </td>
-                </tr>
                    <tr>
                     <td >求职者姓名：</td>
                     <td >
@@ -105,8 +93,8 @@
 
         var form = new mini.Form("form1");   // new FormData()
 
-        function SaveData() {
-            var o = form.getData();            
+        function SaveData(data) {
+            var o = form.getData();
 
             form.validate();
             if (form.isValid() == false) return;
@@ -116,9 +104,9 @@
             console.log(json);
 
             $.ajax({
-                url: "../../Jraction",
-		        type: 'post',
-                data: { Jobresume: json ,method:method},
+                url: "../../Jraction/insert",
+		        type: 'get',
+                data: { Jobresume: json },
                 cache: false,
                 success: function (text) {
                     CloseWindow("save");
@@ -132,20 +120,23 @@
 
         ////////////////////
         //标准方法接口定义
+        //TODO data.action未定义
         var method="insert"
         function SetData(data) {
-            method=data.action
-            if (data.action == "update") {
+            console.log(data)
+            method =data.action;
+            if (method == "update") {
                 //跨页面传递的数据对象，克隆后才可以安全使用
+                console.log("222");
                 data = mini.clone(data);
-                var jsdata=data.jsdata
-                console.log(jsdata)
-                console.log(typeof jsdata)
-                jsdata=JSON.parse(jsdata)
-                form.setData(jsdata)
+                var jrdata=data.jrdata
+                console.log(jrdata)
+                console.log(typeof jrdata)
+                jsdata=JSON.parse(jrdata)
+                form.setData(jrdata)
                  $.ajax({
-                     url: "../../Jraction?method=update",
-                     data:{jsdata:json},
+                     url: "../../Jraction/update",
+                     data:{Jobresume:json},
                      cache: false,
                      success: function (text) {
                          var o = mini.decode(text);
@@ -154,9 +145,33 @@
                          form.setChanged(false);
                 
                          onDeptChanged();
-                         mini.getbyName("jsname").setValue(o.jsname);
+                         mini.getbyName("jrname").setValue(o.jrname);
                      }
                  });
+            }else {
+                var o = form.getData();
+                console.log("111");
+
+                form.validate();
+                if (form.isValid() == false) return;
+
+                var json = mini.encode([o]);
+
+                console.log(json);
+
+                $.ajax({
+                    url: "../../Jraction/insert",
+                    type: 'get',
+                    data: { Jobresume: json },
+                    cache: false,
+                    success: function (text) {
+                        CloseWindow("save");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                        CloseWindow();
+                    }
+                });
             }
         }
 
@@ -174,7 +189,7 @@
             else window.close();            
         }
         function onOk(e) {
-            SaveData();
+                SetData();
         }
         function onCancel(e) {
             CloseWindow("cancel");
