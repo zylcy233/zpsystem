@@ -5,20 +5,23 @@
 <mapper namespace="com.zpsystem.mapper.JrMapper">
 <!--    TODO 插入数据类型有误-->
     <insert id="insert" parameterType="Map">
-        insert into jobresume
-        values(JobResume_jrid.NEXTVAL,#{jsid},#{jsname},#{jrlvl},
+        insert into jobresume(jrid,jsid,jsname,jrlvl,jradvantage,jrintention,jrwork,jrobject,jrschool,jrskill,jrcert)
+        values(#{jrid},#{jsid},#{jsname},#{jrlvl},
         #{jradvantage},#{jrintention},#{jrwork},#{jrobject},
         #{jrschool},#{jrskill},#{jrcert})
+    </insert>
+    <insert id="shoucang" parameterType="Map">
+        insert into newjobresume(rid,jrid) values (#{rid},#{jrid})
     </insert>
     <update id="changepwd" parameterType="Map">
         update Jobseekers set jspasswd=#{jspasswd} where jsid=#{jsid}
     </update>
     <update id="update" parameterType="Map">
-        update jobresume set jppost=?
-				jsname=#{jsname},jrlvl=#{jrlvl},jradvantage=#{jradvantage}
-				jrintention=#{jrintention},jrwork=#{jrwork},jrobject=#{jrobject}
+        update jobresume set
+				jsname=#{jsname},jrlvl=#{jrlvl},jradvantage=#{jradvantage},
+				jrintention=#{jrintention},jrwork=#{jrwork},jrobject=#{jrobject},
 				jrschool=#{jrschool},jrskill=#{jrskill},jrcert=#{jrcert}
-				 where jrid=#{oldjrid}
+				 where jrid=#{jrid}
     </update>
     <select id="select" parameterType="Map" resultType="Map">
         select * from (select a.*,rownum rn from jobresume a where jrid like '%${find}%')
@@ -28,6 +31,22 @@
         select * from (select a.*,rownum rn from jobresume a where jsid like ${jsid})
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
     </select>
+    <select id="getNew" parameterType="Map" resultType="Map">
+        select * from(
+    SELECT jr.*, js.jstel, js.jsemail, ROWNUM rn
+    FROM jobresume jr
+    JOIN Jobseekers js ON js.jsid = jr.jsid
+    JOIN newjobresume a ON a.jrid = jr.jrid
+    WHERE a.rid = #{rid}
+    AND jr.jrintention LIKE '%${find}%') b    where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
+    </select>
+    <delete id="delete" parameterType="Map">
+        delete from jobresume where jrid=#{jrid}
+    </delete>
+    <delete id="delshoucang" parameterType="Map">
+        delete from newjobresume where jrid=#{jrid} and rid=#{rid}
+    </delete>
+
 
 
 </mapper>

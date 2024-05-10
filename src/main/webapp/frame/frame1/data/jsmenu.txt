@@ -1,8 +1,0 @@
-﻿[
-
-{ "id": "JSone", iconCls: "fa fa-barcode", text: "求职者信息管理", url: "../../demo/datagrid/JSone.html" },
-{ "id": "jr", iconCls: "fa fa-barcode", text: "我的简历管理", url: "../../demo/datagrid/JRone.html" },
-{ "id": "jp", iconCls: "fa fa-barcode", text: "招聘信息", url: "../../demo/datagrid/JP.html" },
-{ "id": "njp", iconCls: "fa fa-barcode", text: "我的收藏", url: "../../demo/datagrid/newJP.html" }
-
-]

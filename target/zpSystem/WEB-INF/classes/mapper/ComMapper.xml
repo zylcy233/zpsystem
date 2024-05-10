@@ -9,7 +9,7 @@ select * from (
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
    </select>
     <insert id="insert" parameterType="Map">
-        insert into company values(#{cid},#{cname},#{caddress},#{ctel},#{cpasswd})
+        insert into company values(#{cid},#{cname},#{cdescription},#{caddress},#{ctel},#{cpasswd})
     </insert>
     <update id="update" parameterType="Map">
         update company set Cname=#{cname, jdbcType=VARCHAR} , Cdescription=#{cdescription, jdbcType=VARCHAR} , Caddress=#{caddress, jdbcType=VARCHAR} ,

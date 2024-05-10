@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +31,8 @@ public class ComServlet extends HttpServlet {
         logger.debug(map);
         return comService.getCom(map);
     }
-    //TODO mapper显示数据为null
-    @PostMapping("/update")
+
+    @GetMapping("/update")
     void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String data = req.getParameter("Company");
         data = data.substring(1, data.length() - 1);
@@ -58,18 +57,16 @@ public class ComServlet extends HttpServlet {
 
 
     @GetMapping("/delete")
-     String  delete(HttpServletRequest request, HttpServletResponse resp,@RequestParam Map m) throws IOException {
+     String  delete(HttpServletResponse resp,@RequestParam Map m){
         logger.debug(m);
         if (comService.delete(m)){
-            resp.getWriter().print("OK");
             return "OK";
         }
         else{
-            resp.getWriter().print("fail");
             return "fail";
         }
     }
-//TODO 显示值不够
+
     @GetMapping("/insert")
      void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String data = req.getParameter("Company");

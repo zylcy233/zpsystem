@@ -1,0 +1,7 @@
+﻿[
+{ "id": "r", iconCls: "fa fa-barcode", text: "招聘者个人信息", url: "../../demo/datagrid/RecruiterOne.html" },
+{ "id": "jp", iconCls: "fa fa-barcode", text: "招聘信息", url: "../../demo/datagrid/JPone.html" },
+{ "id": "Jr", iconCls: "fa fa-barcode", text: "求职者简历查看", url: "../../demo/datagrid/JRtwo.html" },
+{ "id": "newjr", iconCls: "fa fa-barcode", text: "简历收藏", url: "../../demo/datagrid/newJR.html" }
+
+]

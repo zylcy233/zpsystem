@@ -9,9 +9,11 @@
     <select id="getOne" parameterType="Map" resultType="Map">
         select * from Jobseekers where jsid=#{jsid} and jspasswd=#{jspasswd}
     </select>
+    <select id="check" parameterType="Map" resultType="Map">
+        select * from Jobseekers where jsid=#{id}
+    </select>
     <insert id="zhuce" parameterType="Map" >
-        insert into Jobseekers(jsid,jsname,jssex,jsbirth,jstel,jsaddress,jspasswd,jsemail) values(
-                #{jsid},#{jsname},#{jssex},to_date(#{jsbirth},'YYYY-MM-DD\"T\"HH24:MI:SS'),#{jstel},#{jsaddress},#{jspasswd},#{jsemail})
+        insert into Jobseekers(jsid,jsname,jssex,jsbirth,jstel,jsaddress,jspasswd,jsemail) values(#{jsid},#{jsname},#{jssex},to_date(#{jsbirth},'YYYY-MM-DD'),#{jstel},#{jsaddress},#{jspasswd},#{jsemail})
     </insert>
     <update id="changepwd" parameterType="Map">
         update Jobseekers set jspasswd=#{jspasswd} where jsid=#{jsid}
@@ -19,9 +21,9 @@
 <!--    TODO 数据显示为null-->
     <update id="update" parameterType="Map">
         update Jobseekers
-        set jsid=#{jsid},jsname=#{jsname},jssex=#{jssex},jsbirth=(#{jsbirth},'YYYY-MM-DD\"T\"HH24:MI:SS'),
+        set jsname=#{jsname},jssex=#{jssex},jsbirth=to_date(#{jsbirth},'YYYY-MM-DD'),
         jstel=#{jstel},jsaddress=#{jsaddress},jspasswd=#{jspasswd},jsemail=#{jsemail}
-        where jsid=#{oldjsid}
+        where jsid=#{jsid}
     </update>
     <select id="select" parameterType="Map" resultType="Map">
         select * from (select a.*,rownum rn from Jobseekers a where jsname like '%${find}%')

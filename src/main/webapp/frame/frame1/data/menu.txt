@@ -1,6 +1,0 @@
-﻿[
-{ "id": "adm", iconCls: "fa fa-desktop", text: "管理模块", url: "admindex.html" },
-{ "id": "rec", iconCls: "fa fa-leaf", text: "招聘模块", url: "pages/1.html" },
-{ "id": "js", iconCls: "fa fa-book", text: "应聘模块", url: "pages/1.html" },
-
-]

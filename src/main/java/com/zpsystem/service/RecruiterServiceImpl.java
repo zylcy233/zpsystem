@@ -1,18 +1,12 @@
 package com.zpsystem.service;
 
-import com.zpsystem.entity.Recruiter;
 import com.zpsystem.mapper.RMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-
-import static com.zpsystem.util.zyUtil.*;
 
 @Service
 public class RecruiterServiceImpl implements RecrutierService{
@@ -55,6 +49,20 @@ public class RecruiterServiceImpl implements RecrutierService{
         logger.debug(map);
         boolean b=rMapper.delete(map);
         return b;
+    }
+
+    @Override
+    public boolean update(Map map) {
+        logger.debug(map);
+        boolean b=rMapper.update(map);
+        return b;
+    }
+
+    @Override
+    public Map sendemail(Map map) {
+        logger.debug(map);
+        Map l=rMapper.check(map);
+        return l;
     }
 
     @Override

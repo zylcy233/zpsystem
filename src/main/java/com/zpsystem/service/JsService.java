@@ -17,6 +17,7 @@ public interface JsService {
     boolean changepwd(Map map);
     boolean delete(Map map);
     boolean update(Map map);
+    Map sendemail(Map map);
     List getJS(Map map);
     List getJsone(Map map);
 

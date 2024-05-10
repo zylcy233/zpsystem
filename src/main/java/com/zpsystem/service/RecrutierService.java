@@ -15,6 +15,8 @@ public interface RecrutierService {
     boolean changepwd(Map map);
     boolean insert(Map map);
     boolean delete(Map map);
+    boolean update(Map map);
+    Map sendemail(Map map);
     List getRec(Map map);
     List getRecOne(Map map);
 

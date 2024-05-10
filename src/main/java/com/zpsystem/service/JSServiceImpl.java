@@ -55,6 +55,13 @@ public class JSServiceImpl implements JsService{
         return b;
     }
 
+    @Override
+    public Map sendemail(Map map) {
+        logger.debug(map);
+        Map l=jsMapper.check(map);
+        return l;
+    }
+
 
     @Override
     public List getJS(Map map) {

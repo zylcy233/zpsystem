@@ -1,6 +1,7 @@
 package com.zpsystem.action;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zpsystem.service.JsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ public class JSServlet extends HttpServlet {
     Logger logger=Logger.getLogger(String.valueOf(JSServlet.class));
 
     @PostMapping("/getJS")
-    List getJS( @RequestParam Map m){
+    List getJS(HttpServletRequest req, @RequestParam Map m){
+        String find = req.getParameter("find");
+        m.put("find",find);
         logger.debug("m:" + m);
         return jsService.getJS(m);
     }
@@ -47,24 +50,55 @@ public class JSServlet extends HttpServlet {
     }
 
     @GetMapping("/insert")
-    void insert(HttpServletResponse resp, @RequestParam Map map) throws IOException {
-        logger.debug(map);
-        if (jsService.zhuce(map)) {
-            resp.getWriter().print("OK");
-        } else {
-            resp.getWriter().print("fail");
+    void insert(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+        String data = req.getParameter("data");
+        data = data.substring(1, data.length() - 1);
+        logger.debug(data);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Map<String, String> map = objectMapper.readValue(data, Map.class);
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                map.put(entry.getKey(), entry.getValue());
+            }
+            logger.debug(map);
+            String jsbirth=map.get("jsbirth");
+            String date = jsbirth.split("T")[0];
+            map.put("jsbirth",date);
+            logger.debug(map);
+            if (jsService.zhuce(map)) {
+                resp.getWriter().print("OK");
+            } else {
+                resp.getWriter().print("fail");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     @GetMapping("/update")
-    String update(HttpServletRequest request, HttpServletResponse resp,@RequestParam Map map) throws IOException {
-        logger.debug(map);
-        if (jsService.update(map)) {
-            resp.getWriter().print("OK");
-            return "OK";
-        } else {
-            resp.getWriter().print("fail");
-            return "fail";
+    void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String data = req.getParameter("data");
+        data = data.substring(1, data.length() - 1);
+        logger.debug(data);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Map<String, String> map = objectMapper.readValue(data, Map.class);
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                map.put(entry.getKey(), entry.getValue());
+            }
+            logger.debug(map);
+            String jsbirth=map.get("jsbirth");
+            String date = jsbirth.split("T")[0];
+            map.put("jsbirth",date);
+            if (jsService.update(map)) {
+                resp.getWriter().print("OK");
+            } else {
+                resp.getWriter().print("fail");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
 }
