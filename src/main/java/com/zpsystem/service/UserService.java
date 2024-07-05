@@ -1,7 +1,6 @@
 package com.zpsystem.service;
 
 
-import com.zpsystem.entity.Jobseekers;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

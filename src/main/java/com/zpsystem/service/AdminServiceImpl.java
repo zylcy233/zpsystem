@@ -1,7 +1,7 @@
 package com.zpsystem.service;
 
 
-import com.zpsystem.entity.Administrator;
+
 import com.zpsystem.mapper.AdminMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

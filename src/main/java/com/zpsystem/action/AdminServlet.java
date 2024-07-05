@@ -44,6 +44,13 @@ public class AdminServlet extends HttpServlet {
         }
     }
 
+    @GetMapping("/logout")
+    void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException {
+        request.getSession().setAttribute("adm",null);
+        resp.sendRedirect("http://localhost:8080/zpSystem/flogin.html");
+    }
+
+
     @GetMapping("/insert")
     void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String data = req.getParameter("App");

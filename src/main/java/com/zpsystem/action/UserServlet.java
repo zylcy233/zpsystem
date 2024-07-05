@@ -1,6 +1,5 @@
 package com.zpsystem.action;
 
-import com.zpsystem.service.JpService;
 import com.zpsystem.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

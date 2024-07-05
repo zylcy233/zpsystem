@@ -1,6 +1,6 @@
 package com.zpsystem.service;
 
-import com.zpsystem.entity.Administrator;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
