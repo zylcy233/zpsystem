@@ -1,26 +1,22 @@
 package com.zpsystem.action;
 
 
-import com.zpsystem.service.JsService;
+import com.zpsystem.service.UserService;
 import com.zpsystem.service.RecrutierService;
 import com.zpsystem.util.SendEmail;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -30,7 +26,7 @@ import java.util.Map;
 public class SendEmailServlet extends HttpServlet {
     Logger logger=Logger.getLogger(String.valueOf(SendEmailServlet.class));
     @Autowired
-    JsService jsService;
+    UserService userService;
     @Autowired
     RecrutierService recrutierService;
 
@@ -40,7 +36,7 @@ public class SendEmailServlet extends HttpServlet {
         String id=request.getParameter("id");
         logger.debug(id);
 //        ArrayList lst= (ArrayList) jsService.sendemail(map);
-        Map m=  jsService.sendemail(map);
+        Map m=  userService.sendemail(map);
         logger.debug(m);
         if (m !=null){
             request.getSession().setAttribute("adm",m);

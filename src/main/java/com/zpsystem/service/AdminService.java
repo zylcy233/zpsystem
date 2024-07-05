@@ -9,5 +9,7 @@ import java.util.Map;
 
 public interface AdminService {
     List selectadm(Map map);
-
+    boolean insert(Map m);
+    boolean update(Map m);
+    boolean login(Map map);
 }

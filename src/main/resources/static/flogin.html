@@ -43,11 +43,10 @@
                     <input type="text" class="form-control" id="passwd" name="passwd" />
                 </div>
                  <button type="button" class="btn btn-default" onclick="alogin()">管理员登录</button>
-                <button type="button" class="btn btn-default" onclick="jslogin()">求职者登录</button>
-                <button type="button" class="btn btn-default" onclick="rlogin()">招聘者登录</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='sendemail.html'">忘记密码</button>
+                <button type="button" class="btn btn-default" onclick="ulogin()">用户登录</button>
+<!--                <button type="button" class="btn btn-default" onclick="window.location.href='sendemail.html'">忘记密码</button>-->
                 <button type="button" class="btn btn-default" onclick="window.location.href='zhuce.html'">注册</button>
-                <button type="button" class="btn btn-default" onclick="window.location.href='demo/datagrid/findAdm.html'">联系我们</button>
+<!--                <button type="button" class="btn btn-default" onclick="window.location.href='demo/datagrid/findAdm.html'">联系我们</button>-->
 
             </form>
         </div>
@@ -77,14 +76,14 @@
                 }
             }
         }
-        httpreq.open("get", "admaction/login?aid="+aid+"&apasswd="+apasswd);
+        httpreq.open("get", "adminaction/login?aid="+aid+"&apasswd="+apasswd);
         httpreq.send();
     }
 
-    function jslogin() {
-        var jsid = document.getElementById("id").value;
-        var jspasswd = document.getElementById("passwd").value;
-        if(jsid==""||jspasswd==""){
+    function ulogin() {
+        var userid = document.getElementById("id").value;
+        var passwd = document.getElementById("passwd").value;
+        if(userid==""||passwd==""){
             ts.innerHTML="用户或密码不能为空"
             return
         }
@@ -96,34 +95,11 @@
                     ts.innerHTML="无效的用户密码"
                 }else {
                     ts.innerHTML="登录成功，稍后带你到主页..."
-                    setTimeout("window.location.href='frame/frame1/jsindex.html',1000")
+                    setTimeout("window.location.href='frame/frame1/userindex.html',1000")
                 }
             }
         }
-        httpreq.open("get", "jsloginaction/login?jsid="+jsid+"&jspasswd="+jspasswd);
-        httpreq.send();
-    }
-    
-    function rlogin() {
-        var rid = document.getElementById("id").value;
-        var rpasswd = document.getElementById("passwd").value;
-        if(rid==""||rpasswd==""){
-            ts.innerHTML="用户或密码不能为空"
-            return
-        }
-        if (httpreq == null) httpreq = new XMLHttpRequest()
-        httpreq.onreadystatechange = function () {
-            if (httpreq.readyState == 4 && httpreq.status == 200) {
-                var res=httpreq.responseText
-                if (res.indexOf("fail")!=-1){
-                    ts.innerHTML="无效的用户密码"
-                }else {
-                    ts.innerHTML="登录成功，稍后带你到主页..."
-                    setTimeout("window.location.href='frame/frame1/rindex.html',1000")
-                }
-            }
-        }
-        httpreq.open("get", "rloginaction/login?rid="+rid+"&rpasswd="+rpasswd);
+        httpreq.open("get", "userloginaction/login?userid="+userid+"&passwd="+passwd);
         httpreq.send();
     }
 </script>

@@ -26,42 +26,15 @@
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td >姓名：</td>
+                    <td >分类id：</td>
+                    <td >
+                        <input name="appcategoryid" class="mini-textbox" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >分类名称：</td>
                     <td >    
-                        <input name="rname" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-               <tr>
-                   <td style="width:80px;">性别：</td>
-                   <td >
-                       <select name="rsex" class="mini-radiobuttonlist">
-                           <option value="男">男</option>
-                           <option value="女">女</option>
-                       </select>
-                   </td>
-               </tr>
-                <tr>
-                    <td >公司编号：</td>
-                    <td >
-                        <input name="cid" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td >联系方式：</td>
-                    <td >
-                        <input name="rtel" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td >密码：</td>
-                    <td >
-                        <input name="rpasswd" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-                  <tr>
-                    <td >邮箱：</td>
-                    <td >
-                        <input name="remail" class="mini-textbox" required="true"/>
+                        <input name="name" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
             </table>
@@ -89,7 +62,7 @@
             console.log(json);
 
             $.ajax({
-                url: "../../recaction/"+method,
+                url: "../../appcategoryaction/"+method,
 		        type: 'get',
                 data: {data:json},
                 cache: false,
@@ -111,24 +84,11 @@
             if (data.action == "update") {
                 //跨页面传递的数据对象，克隆后才可以安全使用
                 data = mini.clone(data);
-                var rdata=data.rdata
-                console.log(rdata)
-                console.log(typeof rdata)
-                rdata=JSON.parse(rdata)
-                form.setData(rdata)
-                // $.ajax({
-                //     url: "../../JSaction/update",
-                //     data:{rdata:ron},
-                //     cache: false,
-                //     success: function (text) {
-                //         var o = mini.decode(text);
-                //         console.log(o)
-                //         form.setData(o);
-                //         form.setChanged(false);
-                //         onDeptChanged();
-                //         mini.getbyName("rname").setValue(o.rname);
-                //     }
-                // });
+                var data=data.data
+                console.log(data)
+                console.log(typeof data)
+                data=JSON.parse(data)
+                form.setData(data)
             }
         }
 

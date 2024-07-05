@@ -2,14 +2,14 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>招聘者管理</title>
+    <title>应用信息管理</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link href="../demo.css" rel="stylesheet" type="text/css" />
 
     <script src="../../scripts/boot.js" type="text/javascript"></script>
 </head>
 <body>
-    <h1>招聘者管理</h1>
+    <h1>应用信息管理</h1>
 
     <div style="width:800px;">
         <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
@@ -21,7 +21,7 @@
                         <a class="mini-button" iconCls="icon-remove" onclick="remove()">删除</a>       
                     </td>
                     <td style="white-space:nowrap;">
-                        <input id="key" class="mini-textbox" emptyText="请输入招聘者名称" style="width:150px;" onenter="onKeyEnter"/>
+                        <input id="key" class="mini-textbox" emptyText="请输入应用名称" style="width:150px;" onenter="onKeyEnter"/>
                         <a class="mini-button" onclick="search()">查询</a>
                     </td>
                 </tr>
@@ -29,18 +29,16 @@
         </div>
     </div>
     <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" allowResize="true"
-        url="../../recaction/getRec"  idField="id" multiSelect="true"
+        url="../../userloginaction/getApp"  idField="id" multiSelect="true"
     >
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
-            <div type="checkcolumn" ></div>        
-            <div field="RID" width="120" headerAlign="center" allowSort="true">账号</div>
-            <div field="RNAME" width="120" headerAlign="center" allowSort="true">姓名</div>
-            <div field="RSEX" width="100" >性别</div>
-            <div field="RTEL" width="100" align="center" >联系方式</div>
-            <div field="CID" width="100" align="center" >公司编号</div>
-            <div field="RPASSWD" width="100" align="center" >密码</div>
-            <div field="REMAIL" width="100" align="center" >邮箱</div>
+            <div type="checkcolumn" ></div>
+            <div field="APPID" width="120" headerAlign="center" allowSort="true">应用ID</div>
+            <div field="NAME" width="120" headerAlign="center" allowSort="true">应用名称</div>
+            <div field="DESCRIPTION" width="100" align="center" >应用描述</div>
+            <div field="URL" width="100" align="center" >URL网址</div>
+            <div field="APPCATEGORYID" width="100" align="center" >分类id</div>
         </div>
     </div>
     
@@ -54,10 +52,9 @@
 
         
         function add() {
-            
             mini.open({
-                url: "../../demo/CommonLibs/RWindow.html" ,
-                title: "新增招聘者", width: 600, height: 400,
+                url: "../../demo/CommonLibs/AppWindow.html" ,
+                title: "新增公司信息", width: 600, height: 400,
                 onload: function () {
                     var iframe = this.getIFrameEl();
                     var data = { action: "insert"};
@@ -73,15 +70,15 @@
          
             var row = grid.getSelected();
             if (row) {
-                row.oldrid=row.RID
+                row.oldcid=row.CID
                 console.log(row)
                 console.log(typeof row)
                 mini.open({
-                    url:  "../../demo/CommonLibs/RWindow.html",
-                    title: "编辑招聘者", width: 600, height: 400,
+                    url:  "../../demo/CommonLibs/AppWindow.html",
+                    title: "编辑公司", width: 600, height: 400,
                     onload: function () {
                         var iframe = this.getIFrameEl();
-                        var data = { action: "update", rdata:JSON.stringify(row)};
+                        var data = { action: "update", appdata:JSON.stringify(row)};
                         iframe.contentWindow.SetData(data);
                         
                     },
@@ -97,6 +94,7 @@
             
         }
         function remove() {
+
             var rows = grid.getSelecteds();
             if (rows.length > 0) {
                 if (confirm("确定删除选中记录？")) {
@@ -104,42 +102,16 @@
                     for (var i = 0, l = rows.length; i<l; i++) {
                         var r = rows[i];
                         console.log(r)
-                        ids.push(r.RID);
+                        ids.push(r.CID);
                     }
                     var id = ids.join(',');
                     alert(id)
                     grid.loading("操作中，请稍后......");
                     $.ajax({
-                        url: "../../recaction/delete",
-                        data:{rid:id},
+                        url: "../../comaction/delete",
+                        data:{cid:id},
                         success: function (text) {
-                            grid.reload();
-                        },
-                        error: function () {
-                        }
-                    });
-                }
-            } else {
-                alert("请选中一条记录");
-            }
-        }
-        function shoucang() {
-            var rows = grid.getSelecteds();
-            if (rows.length > 0) {
-                if (confirm("确定收藏该招聘信息？")) {
-                    var ids = [];
-                    for (var i = 0, l = rows.length; i<l; i++) {
-                        var r = rows[i];
-                        console.log(r)
-                        ids.push(r.rid);
-                    }
-                    var id = ids.join(',');
-                    alert(id)
-                    grid.loading("操作中，请稍后......");
-                    $.ajax({
-                        url: "../../JSaction",
-                        data:{method:"jsshoucang",rid:id},
-                        success: function (text) {
+                            alert(text);
                             grid.reload();
                         },
                         error: function () {
@@ -158,23 +130,11 @@
             search();
         }
         /////////////////////////////////////////////////
+
         function onMarriedRenderer(e) {
             if (e.value == 1) return "是";
             else return "否";
         }
-        var RSEX = [{ id: 1, text: '男' }, { id: 2, text: '女'}];
-        function onJSsexRenderer(e) {
-            for (var i = 0, l = RSEX.length; i < l; i++) {
-                var g = RSEX[i];
-                if (g.id == e.value) return g.text;
-            }
-            return "";
-            
-        }
-
-
-
-
 
     </script>
 

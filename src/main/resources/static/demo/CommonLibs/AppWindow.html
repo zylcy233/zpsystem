@@ -22,45 +22,38 @@
 <body>    
      
     <form id="form1" method="post">
-        <input name="oldcid" class="mini-hidden" />
+        <input name="oldappid" class="mini-hidden" />
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:80px;">公司账号：</td>
+                    <td style="width:80px;">应用id：</td>
                     <td style="width:150px;">    
-                        <input name="cid" class="mini-textbox" required="true"  emptyText="范围在20000000~29999999"/>
+                        <input name="appid" class="mini-textbox" required="true"  emptyText="范围在1-9999中"/>
                     </td>
                 </tr>
                 <tr>
-                    <td >公司名称：</td>
+                    <td >应用名称：</td>
                     <td >
-                        <mini-textbox name="cname" required="true"></mini-textbox>
-<!--                        <input name="cname" class="mini-textbox" required="true"/>-->
+                        <mini-textbox name="name" required="true"></mini-textbox>
+<!--                        <input name="name" class="mini-textbox" required="true"/>-->
                     </td>
                 </tr>
                    <tr>
                     <td >描述：</td>
                     <td >
-                        <input name="cdescription" class="mini-textbox" required="true"/>
+                        <input name="description" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
                     <tr>
-                    <td >地址：</td>
+                    <td >url地址：</td>
                     <td >
-                        <input name="caddress" class="mini-textbox" required="true"/>
+                        <input name="url" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
                 <tr>
-                    <td >联系方式：</td>
+                    <td >分类id：</td>
                     <td >
-                        <input name="ctel" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-            
-                <tr>
-                    <td >密码：</td>
-                    <td >
-                        <input name="cpasswd" class="mini-textbox" required="true"/>
+                        <input name="appcategoryid" class="mini-textbox" required="true"/>
                     </td>
                 </tr>
             </table>
@@ -87,9 +80,9 @@
             console.log(method);
 
             $.ajax({
-                url: "../../comaction/"+method, // save
+                url: "../../adminaction/"+method, // save
 		        type: 'get',
-                data: { Company: json},
+                data: { App: json},
                 cache: false,
                 success: function (text) {
                     CloseWindow("save");
@@ -113,26 +106,12 @@
                 //跨页面传递的数据对象，克隆后才可以安全使用
                 data = mini.clone(data);
                 console.log(data)
-                var comdata=data.comdata
-                console.log(comdata)
-                console.log(typeof comdata)
-                jsdata=JSON.parse(comdata)
+                var appdata=data.appdata
+                console.log(appdata)
+                console.log(typeof appdata)
+                jsdata=JSON.parse(appdata)
                 var o = mini.decode(data);
                 form.setData(o)
-                // $.ajax({
-                //     url: "../../comaction/update",
-                //     data:{Company:comdata},
-                //     cache: false,
-                //     success: function (text) {
-                //         var o = mini.decode(text);
-                //         console.log(o)
-                //         form.setData(o);
-                //         form.setChanged(false);
-                //
-                //         onDeptChanged();
-                //         mini.getbyName("cname").setValue(o.cname);
-                //     }
-                // });
             }
         }
 

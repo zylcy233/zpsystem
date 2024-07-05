@@ -1,8 +1,7 @@
 ﻿[
 
-{ "id": "admin", iconCls: "fa fa-barcode", text: "管理员", url: "../../demo/datagrid/Adm.html" },
-{ "id": "COM", iconCls: "fa fa-barcode", text: "公司信息管理", url: "../../demo/datagrid/COM.html" },
-{ "id": "Rec", iconCls: "fa fa-barcode", text: "招聘者信息管理", url: "../../demo/datagrid/Recruiter.html" },
+{ "id": "COM", iconCls: "fa fa-barcode", text: "'应用信息'公司信息管理", url: "../../demo/datagrid/ADMAPP.html" },
+{ "id": "Rec", iconCls: "fa fa-barcode", text: "'分类管理'招聘者信息管理", url: "../../demo/datagrid/APPCATEGORY.html" },
 { "id": "JS", iconCls: "fa fa-barcode", text: "求职者信息管理", url: "../../demo/datagrid/JS.html" }
 
 ]

@@ -28,7 +28,7 @@ public class JpServlet extends HttpServlet {
     List getJp(HttpServletRequest req,  @RequestParam Map m) throws IOException {
         logger.debug("m:" + m);
         HashMap adm= (HashMap) req.getSession().getAttribute("adm");
-        m.put("jsid",adm.get("jsid"));
+        m.put("userid",adm.get("userid"));
         return jpService.getJp(m);
     }
 

@@ -20,7 +20,7 @@
     
 <div class="navbar">
     <div class="navbar-header">
-        <div class="navbar-brand">招聘网站</div>
+        <div class="navbar-brand">java3</div>
         <div class="navbar-brand navbar-brand-compact">M</div>
     </div>
 <!--    <ul class="nav navbar-nav">-->
@@ -37,7 +37,7 @@
                 <img class="user-img" src="res/images/aa.png" />其他<i class="fa fa-angle-down"></i>
             </a>
             <ul class="dropdown-menu pull-right">
-                <li><a href="../../jsloginaction/logout"><i class="fa fa-user"></i> 退出登录</a></li>
+                <li><a href="../../userloginaction/logout"><i class="fa fa-user"></i> 退出登录</a></li>
             </ul>
         </li>
     </ul>
@@ -98,7 +98,7 @@
         new MenuTip(menu);
 
         $.ajax({
-            url: "data/jsmenu.txt",
+            url: "data/usermenu.txt",
             success: function (text) {
                 var data = mini.decode(text);
                 menu.loadData(data);
