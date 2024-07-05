@@ -3,7 +3,6 @@ import com.zpsystem.service.AdmService;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Controller
+
 @RestController
 @RequestMapping("/admaction")
 public class AdmServlet extends HttpServlet {

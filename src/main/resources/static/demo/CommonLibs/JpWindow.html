@@ -25,7 +25,12 @@
         <input name="oldjsid" class="mini-hidden" />
         <div style="padding-left:11px;padding-bottom:5px;">
             <table style="table-layout:fixed;">
-
+                <tr>
+                    <td >招聘编号：</td>
+                    <td >
+                        <input name="jpid" class="mini-textbox" required="true"/>
+                    </td>
+                </tr>
                 <tr>
                     <td >公司编号：</td>
                     <td >
@@ -81,7 +86,7 @@
             console.log(json);
 
             $.ajax({
-                url: "../../Jpaction/insert",
+                url: "../../Jpaction/"+method,
 		        type: 'get',
                 data: {data:json},
                 cache: false,
@@ -108,19 +113,19 @@
                 console.log(typeof rdata)
                 rdata=JSON.parse(rdata)
                 form.setData(rdata)
-                $.ajax({
-                    url: "../../Jpaction/update",
-                    data:{rdata:ron},
-                    cache: false,
-                    success: function (text) {
-                        var o = mini.decode(text);
-                        console.log(o)
-                        form.setData(o);
-                        form.setChanged(false);
-                        onDeptChanged();
-                        mini.getbyName("rname").setValue(o.rname);
-                    }
-                });
+                // $.ajax({
+                //     url: "../../Jpaction/update",
+                //     data:{rdata:ron},
+                //     cache: false,
+                //     success: function (text) {
+                //         var o = mini.decode(text);
+                //         console.log(o)
+                //         form.setData(o);
+                //         form.setChanged(false);
+                //         onDeptChanged();
+                //         mini.getbyName("rname").setValue(o.rname);
+                //     }
+                // });
             }
         }
 

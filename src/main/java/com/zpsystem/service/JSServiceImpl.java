@@ -1,7 +1,5 @@
 package com.zpsystem.service;
 
-import com.alibaba.fastjson.JSON;
-import com.zpsystem.entity.Jobseekers;
 import com.zpsystem.mapper.JsMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static com.zpsystem.util.zyUtil.*;
+
 
 @Service
 public class JSServiceImpl implements JsService{

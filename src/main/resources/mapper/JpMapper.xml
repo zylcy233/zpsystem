@@ -13,9 +13,19 @@
         b  where b.rn between (${pageIndex}*${pageSize}+1) and  (${pageIndex} * ${pageSize}+${pageSize})
     </select>
     <insert id="insert" parameterType="Map">
+        insert into jobposting(jpid,cid,jppost,jpsalary,jpaddress,jprequest,rid)
+        values(#{jpid},#{cid},#{jppost},#{jpsalary},#{jpaddress},#{jprequest},#{rid})
+    </insert>
+    <insert id="shoucang" parameterType="Map">
         insert into newjobposting values(${jpid},${jsid})
     </insert>
+    <update id="update" parameterType="Map">
+        update jobposting set jppost=#{jppost},jpsalary=#{jpsalary},jpaddress=#{jpaddress},jprequest=#{jprequest} where jpid=#{jpid}
+    </update>
     <delete id="delete" parameterType="Map">
+        delete from jobposting where jpid=${jpid}
+    </delete>
+    <delete id="delshoucang" parameterType="Map">
         delete from newjobposting where jpid=${jpid} and jsid=${jsid}
     </delete>
 </mapper>

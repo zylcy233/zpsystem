@@ -14,6 +14,9 @@ import java.util.Map;
 public interface JpService {
     List getJp(Map map);
     List getNewJp(Map map);
+    boolean insert(Map map);
+    boolean update(Map map);
+    boolean delete(Map map);
     boolean insertNewJp(Map map);
     boolean deletNewJp(Map map);
 

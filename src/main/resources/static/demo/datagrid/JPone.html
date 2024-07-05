@@ -61,12 +61,12 @@
         function add() {
 
             mini.open({
-                url: "../../demo/CommonLibs/ComWindow.html" ,
+                url: "../../demo/CommonLibs/JpWindow.html" ,
                 title: "新增公司信息", width: 600, height: 400,
                 onload: function () {
                     var iframe = this.getIFrameEl();
                     var data = { action: "insert"};
-                    iframe.contentWindow.SaveData(data);
+                    iframe.contentWindow.SetData(data);
                 },
                 ondestroy: function (action) {
 
@@ -78,11 +78,11 @@
 
             var row = grid.getSelected();
             if (row) {
-                row.oldcid=row.CID
+                row.oldcid=row.JPID
                 console.log(row)
                 console.log(typeof row)
                 mini.open({
-                    url:  "../../demo/CommonLibs/ComWindow.html",
+                    url:  "../../demo/CommonLibs/JpWindow.html",
                     title: "编辑公司", width: 600, height: 400,
                     onload: function () {
                         var iframe = this.getIFrameEl();

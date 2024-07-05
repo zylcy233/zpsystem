@@ -35,16 +35,37 @@ public  class JpServiceImpl implements JpService{
 	}
 
 	@Override
-	public boolean insertNewJp(Map map) {
+	public boolean insert(Map map) {
 		logger.debug(map);
 		boolean b=jpMapper.insert(map);
 		return b;
 	}
 
 	@Override
-	public boolean deletNewJp(Map map) {
+	public boolean update(Map map) {
+		logger.debug(map);
+		boolean b=jpMapper.update(map);
+		return b;
+	}
+
+	@Override
+	public boolean delete(Map map) {
 		logger.debug(map);
 		boolean b=jpMapper.delete(map);
+		return b;
+	}
+
+	@Override
+	public boolean insertNewJp(Map map) {
+		logger.debug(map);
+		boolean b=jpMapper.shoucang(map);
+		return b;
+	}
+
+	@Override
+	public boolean deletNewJp(Map map) {
+		logger.debug(map);
+		boolean b=jpMapper.delshoucang(map);
 		return b;
 	}
 

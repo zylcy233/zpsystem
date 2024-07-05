@@ -7,23 +7,26 @@ var skin = getCookie("miniuiSkin") || 'default';             //skin cookie    cu
 var mode = getCookie("miniuiMode") || 'default';                 //mode cookie     medium     
 
 //miniui
-document.write('<script src=' + bootPATH + '"jquery.min.js" type="text/javascript"></sc' + 'ript>');
-document.write('<script src=' + bootPATH + '"miniui/miniui.js" type="text/javascript" ></sc' + 'ript>');
-document.write('<link href=' + bootPATH + '"../res/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />');
-document.write('<link href=' + bootPATH + '"miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />');
+document.write("<script src='" + bootPATH + "jquery.min.js' type='text/javascript'></sc" + "ript>");
+document.write("<script src='" + bootPATH + "miniui/miniui.js' type='text/javascript'></sc" + "ript>");
+document.write("<link href='" + bootPATH + "../res/fonts/font-awesome/css/font-awesome.min.css' rel='stylesheet' type='text/css' />");
+// document.write('<link href="res/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />');
+document.write("<link href='" + bootPATH + "miniui/themes/default/miniui.css' rel='stylesheet' type='text/css' />");
 
 //common
-document.write('<link href=' + bootPATH + '"../res/css/common.css" rel="stylesheet" type="text/css" />');
-document.write('<script src=' + bootPATH + '"../res/js/common.js" type="text/javascript" ></sc' + 'ript>');
+document.write("<link href='" + bootPATH + "../res/css/common.css' rel='stylesheet' type='text/css' />");
+// document.write('<link href= "res/css/common.css" rel="stylesheet" type="text/css" />');
+document.write("<script src='" + bootPATH + "../res/js/common.js' type='text/javascript'></sc" + "ript>");
+// document.write('<script src="res/js/common.js" type="text/javascript" ></sc' + 'ript>');
 
 //skin
-if (skin && skin != "default") document.write('<link href="' + bootPATH + 'miniui/themes/' + skin + '/skin.css" rel="stylesheet" type="text/css" />');
+if (skin && skin != "default") document.write("<link href='" + bootPATH + "miniui/themes/" + skin + "/skin.css' rel='stylesheet' type='text/css' />");
 
 //mode
-if (mode && mode != "default") document.write('<link href="' + bootPATH + 'miniui/themes/default/' + mode + '-mode.css" rel="stylesheet" type="text/css" />');
+if (mode && mode != "default") document.write("<link href='" + bootPATH + "miniui/themes/default/" + mode + "-mode.css' rel='stylesheet' type='text/css' />");
 
 //icon
-document.write('<link href=' + bootPATH + '"miniui/themes/icons.css" rel="stylesheet" type="text/css" />');
+document.write("<link href='" + bootPATH + "miniui/themes/icons.css' rel='stylesheet' type='text/css' />");
 
 
 

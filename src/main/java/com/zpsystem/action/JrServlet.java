@@ -1,24 +1,17 @@
 package com.zpsystem.action;
 
 
-import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zpsystem.entity.Jobresume;
 import com.zpsystem.service.JrService;
-import com.zpsystem.util.zyUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.ls.LSOutput;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,14 +96,29 @@ public class JrServlet extends HttpServlet {
         }
     }
     @GetMapping("/delete")
-    String delete(@RequestParam Map m) {
-        logger.debug(m);
-        if (jrService.delete(m)){
-            return "OK";
+    void delete(HttpServletResponse resp,@RequestParam Map map) throws IOException {
+        logger.debug(map);
+        String ids= (String) map.get("jrid");
+        logger.debug(ids);
+        String[] numbersArray = ids.split(",");
+        List<Integer> numbersList = new ArrayList<>();
+        for (String numberStr : numbersArray) {
+            // 去除可能存在的空格（如果有的话）
+            numberStr = numberStr.trim();
+            // 将子字符串转换为整数并添加到列表中
+            numbersList.add(Integer.parseInt(numberStr));
         }
-        else{
-            return "fail";
+        for (int number : numbersList) {
+            System.out.println(number);
+            map.put("jrid",number);
+            if (jrService.delete(map)){
+                resp.getWriter().print("OK");
+            }
+            else{
+                resp.getWriter().print("fail");
+            }
         }
+
     }
 
     @GetMapping("/shoucang")
@@ -118,10 +126,24 @@ public class JrServlet extends HttpServlet {
         logger.debug(map);
         HashMap adm = (HashMap) req.getSession().getAttribute("adm");
         map.put("rid", adm.get("rid"));
-        if (jrService.shoucang(map)) {
-            resp.getWriter().print("OK");
-        } else {
-            resp.getWriter().print("fail");
+        String ids= (String) map.get("jrid");
+        logger.debug(ids);
+        String[] numbersArray = ids.split(",");
+        List<Integer> numbersList = new ArrayList<>();
+        for (String numberStr : numbersArray) {
+            // 去除可能存在的空格（如果有的话）
+            numberStr = numberStr.trim();
+            // 将子字符串转换为整数并添加到列表中
+            numbersList.add(Integer.parseInt(numberStr));
+        }
+        for (int number : numbersList) {
+            System.out.println(number);
+            map.put("jrid",number);
+            if (jrService.shoucang(map)) {
+                resp.getWriter().print("OK");
+            } else {
+                resp.getWriter().print("fail");
+            }
         }
     }
     @GetMapping("/delshoucang")
@@ -129,11 +151,26 @@ public class JrServlet extends HttpServlet {
         logger.debug(map);
         HashMap adm = (HashMap) req.getSession().getAttribute("adm");
         map.put("rid", adm.get("rid"));
-        if (jrService.delshoucang(map)) {
-            resp.getWriter().print("OK");
-        } else {
-            resp.getWriter().print("fail");
+        String ids= (String) map.get("jrid");
+        logger.debug(ids);
+        String[] numbersArray = ids.split(",");
+        List<Integer> numbersList = new ArrayList<>();
+        for (String numberStr : numbersArray) {
+            // 去除可能存在的空格（如果有的话）
+            numberStr = numberStr.trim();
+            // 将子字符串转换为整数并添加到列表中
+            numbersList.add(Integer.parseInt(numberStr));
         }
+        for (int number : numbersList) {
+            System.out.println(number);
+            map.put("jrid",number);
+            if (jrService.delshoucang(map)) {
+                resp.getWriter().print("OK");
+            } else {
+                resp.getWriter().print("fail");
+            }
+        }
+
     }
 
 
